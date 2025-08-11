@@ -27,7 +27,7 @@ export const AudioWaveform: React.FC<AudioWaveformProps> = ({ analyser }) => {
       ctx.strokeStyle = 'rgb(0, 255, 0)';
       ctx.beginPath();
 
-      const sliceWidth = canvas.width * 1.0 / bufferLength;
+      const sliceWidth = canvas.width / bufferLength;
       let x = 0;
 
       for (let i = 0; i < bufferLength; i++) {

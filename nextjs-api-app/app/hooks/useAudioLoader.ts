@@ -17,7 +17,7 @@ export const useAudioLoader = (audioUrl: string) => {
 
       mediaSource.addEventListener('sourceopen', () => {
         const sourceBuffer = mediaSource.addSourceBuffer('audio/mpeg');
-        fetchAndAppend(sourceBuffer, audioUrl, 0, 1024 * 2); // 前2MB
+        fetchAndAppend(sourceBuffer, audioUrl, 0, 1024 * 2); // 前2kb
       });
 
       const source = context.createMediaElementSource(audioElement);

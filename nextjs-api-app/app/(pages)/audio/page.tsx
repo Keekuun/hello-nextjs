@@ -8,6 +8,7 @@ function AudioDemo() {
   return (
     <div>
       <h2>音频标注系统</h2>
+      <audio src={audioUrl} controls={true}></audio>
       <AudioAnnotator
         audioUrl={audioUrl}
         onRangeSelect={(start: number, end: number) => {

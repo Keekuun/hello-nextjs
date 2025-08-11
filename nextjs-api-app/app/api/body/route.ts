@@ -1,8 +1,8 @@
 // nextjs 操作 body
-import {NextResponse} from "next/server";
+import {NextRequest, NextResponse} from "next/server";
 
 export async function POST(request: NextRequest) {
-  console.log('[body]', await request.body)
+  console.log('[body]', request.body)
   return NextResponse.json({
     pathname: request.nextUrl.pathname,
     searchParams: Object.fromEntries(request.nextUrl.searchParams),
