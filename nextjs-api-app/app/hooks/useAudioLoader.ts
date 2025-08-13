@@ -1,54 +1,75 @@
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react'
+import {arrayBufferToBlob, arrayBufferToBlobUrl, blobToUrl} from "@/app/utils/file";
 
-export const useAudioLoader = (audioUrl: string) => {
-  const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
-  const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
-  const [analyser, setAnalyser] = useState<AnalyserNode | null>(null);
+interface UseAudioLoaderProps {
+  src: string
+  start: number
+  end: number
+}
+
+interface UseAudioLoaderReturn {
+  loading: boolean
+  error?: Error
+  data?: string
+  blob?: Blob
+}
+
+export const useAudioLoader = ({
+                                 src,
+                                 start,
+                                 end,
+                               }: UseAudioLoaderProps): UseAudioLoaderReturn => {
+  const [loading, setLoading] = useState<boolean>(false)
+  const [error, setError] = useState<Error | undefined>()
+  const [data, setData] = useState<string | undefined>()
+  const [blob, setBlob] = useState<Blob | undefined>()
 
   useEffect(() => {
-    const init = async () => {
-      const context = new (window.AudioContext || (window as any).webkitAudioContext)();
-      const mediaSource = new MediaSource();
-      const audioElement = new Audio();
-      audioElement.crossOrigin = 'anonymous';
-      audioElement.src = URL.createObjectURL(mediaSource);
-      setAudio(audioElement);
-      setAudioContext(context);
+    let isMounted = true
 
-      mediaSource.addEventListener('sourceopen', () => {
-        const sourceBuffer = mediaSource.addSourceBuffer('audio/mpeg');
-        fetchAndAppend(sourceBuffer, audioUrl, 0, 1024 * 2); // 前2kb
-      });
+    const fetchAudio = async () => {
+      if (!src || start < 0 || end <= start) {
+        setError(new Error('Invalid audio source or range'))
+        return
+      }
 
-      const source = context.createMediaElementSource(audioElement);
-      const analyserNode = context.createAnalyser();
-      source.connect(analyserNode);
-      analyserNode.connect(context.destination);
-      setAnalyser(analyserNode);
-    };
+      setLoading(true)
+      try {
+        const response = await fetch(src, {
+          headers: {
+            Range: `bytes=${start}-${end}`,
+          },
+        })
 
-    init();
+        if (!response.ok && response.status !== 206) {
+          throw new Error(`HTTP error! status: ${response.status}`)
+        }
+
+        const buffer = await response.arrayBuffer()
+
+        if (isMounted) {
+          const blob = arrayBufferToBlob(buffer, 'audio/mpeg')
+          setBlob(blob)
+          setData(blobToUrl(blob))
+          setError(undefined)
+        }
+      } catch (err) {
+        if (isMounted) {
+          setError(err instanceof Error ? err : new Error('An unknown error occurred'))
+        }
+      } finally {
+        if (isMounted) {
+          setLoading(false)
+        }
+      }
+    }
+
+    fetchAudio()
 
     return () => {
-      if (audio) {
-        audio.pause();
-        audio.src = '';
-      }
-      if (audioContext) {
-        audioContext.close();
-      }
-    };
-  }, [audioUrl]);
+      isMounted = false
+    }
+  }, [src, start, end])
 
-  const fetchAndAppend = async (sourceBuffer: SourceBuffer, url: string, start: number, end: number) => {
-    const res = await fetch(url, {
-      headers: {
-        Range: `bytes=${start}-${end}`,
-      },
-    });
-    const buffer = await res.arrayBuffer();
-    sourceBuffer.appendBuffer(buffer);
-  };
-
-  return { audio, analyser };
-};
+  return {loading, error, data, blob}
+}

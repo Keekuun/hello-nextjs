@@ -1,20 +1,22 @@
 "use client"
 
 import React from 'react';
-import { AudioAnnotator } from '@/app/components/AudioAnnotator';
+import {AudioWaveSurfer} from "@/app/components/AudioWaveSurfer";
+import {useAudioLoader} from "@/app/hooks/useAudioLoader";
 function AudioDemo() {
   const audioUrl = '/api/proxy/audio?soundid=38984&type=mp3';
 
+  const start = 0;
+  // 100 kb
+  const end = 100*1024;
+  const { data } = useAudioLoader({ src: audioUrl, start, end });
   return (
-    <div>
-      <h2>音频标注系统</h2>
-      <audio src={audioUrl} controls={true}></audio>
-      <AudioAnnotator
-        audioUrl={audioUrl}
-        onRangeSelect={(start: number, end: number) => {
-          console.log(`选中时间范围：${start.toFixed(2)}s - ${end.toFixed(2)}s`);
-        }}
-      />
+    <div className="m-4">
+      <h2>音频可视化</h2>
+      <h4>加载全部</h4>
+      <AudioWaveSurfer url={audioUrl} />
+      <h4>加载部分[{start / 1024}-{end / 1024}] kb</h4>
+      <AudioWaveSurfer url={data} />
     </div>
   );
 }

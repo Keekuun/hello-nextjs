@@ -1,8 +1,0 @@
-{
-	"dependencies": {
-		"http-proxy": "^1.18.1"
-	},
-	"devDependencies": {
-		"@types/http-proxy": "^1.17.16"
-	}
-}
