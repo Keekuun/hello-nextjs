@@ -1,13 +1,14 @@
 "use client"
 
 import WavesurferPlayer from '@wavesurfer/react'
-import React, {useEffect, useMemo, useState} from "react";
+import React, {useEffect, useState} from "react";
 import WaveSurfer from "wavesurfer.js";
 import TimelinePlugin from 'wavesurfer.js/dist/plugins/timeline.esm.js'
 import ZoomPlugin from 'wavesurfer.js/dist/plugins/zoom.esm.js'
 import MinimapPlugin from 'wavesurfer.js/dist/plugins/minimap.esm.js'
 import RegionsPlugin from 'wavesurfer.js/dist/plugins/regions.esm.js'
 import Hover from 'wavesurfer.js/dist/plugins/hover.esm.js'
+import {GenericPlugin} from "wavesurfer.js/dist/base-plugin";
 
 type Props = {
   url?: string
@@ -16,7 +17,7 @@ type Props = {
 export const AudioWaveSurfer = ({url}: Props) => {
   const [wavesurfer, setWavesurfer] = useState<WaveSurfer | null>(null)
   const [isPlaying, setIsPlaying] = useState(false)
-  const [plugins, setPlugins] = useState([])
+  const [plugins, setPlugins] = useState<GenericPlugin[]>([])
 
   const onReady = (wavesurfer: WaveSurfer) => {
     setWavesurfer(wavesurfer)
@@ -28,7 +29,7 @@ export const AudioWaveSurfer = ({url}: Props) => {
   }
 
   useEffect(() => {
-    const plugins = [
+    const plugins: GenericPlugin[] = [
       TimelinePlugin.create(),
       ZoomPlugin.create(),
       RegionsPlugin.create(),
