@@ -1,4 +1,7 @@
+"use client"
+
 import Image from "next/image";
+import {share} from "@/utils/native";
 
 export default function Home() {
   return (
@@ -49,6 +52,10 @@ export default function Home() {
           >
             Read our docs
           </a>
+        </div>
+
+        <div>
+          <button onClick={share}>Share now!</button>
         </div>
       </main>
       <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">

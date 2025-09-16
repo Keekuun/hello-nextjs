@@ -7,20 +7,36 @@
     "build": "next build --turbopack",
     "start": "next start",
     "lint": "biome check",
-    "format": "biome format --write"
+    "format": "biome format --write",
+    "preserve": "npm run build",
+    "serve": "npx serve out",
+    "presync": "npm run build",
+    "sync": "npx cap sync",
+    "copy": "npx cap copy",
+    "android": "npx cap run android",
+    "android:add": "npx cap add android",
+    "android:open": "npx cap open android",
+    "ios": "npx cap run ios",
+    "ios:add": "npx cap add ios",
+    "ios:open": "npx cap open ios"
   },
   "dependencies": {
+    "@capacitor/android": "7.4.3",
+    "@capacitor/core": "7.4.3",
+    "@capacitor/ios": "7.4.3",
+    "@capacitor/share": "^7.0.2",
+    "next": "15.5.3",
     "react": "19.1.0",
-    "react-dom": "19.1.0",
-    "next": "15.5.3"
+    "react-dom": "19.1.0"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@biomejs/biome": "2.2.0",
+    "@capacitor/cli": "7.4.3",
+    "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@tailwindcss/postcss": "^4",
     "tailwindcss": "^4",
-    "@biomejs/biome": "2.2.0"
+    "typescript": "^5"
   }
 }
