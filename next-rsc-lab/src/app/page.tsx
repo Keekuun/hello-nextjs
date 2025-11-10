@@ -77,6 +77,71 @@ export default function Home() {
             实验 Server Actions
           </Link>
         </div>
+        <div style={{ marginTop: 16 }}>
+          <Link
+            href="/rsc-flight-viewer"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 8,
+              padding: '12px 20px',
+              borderRadius: 999,
+              background: '#7c3aed',
+              color: '#fff',
+              fontWeight: 600,
+            }}
+          >
+            Flight 数据可视化
+          </Link>
+          <Link
+            href="/rsc-performance"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 8,
+              padding: '12px 20px',
+              borderRadius: 999,
+              background: '#dc2626',
+              color: '#fff',
+              fontWeight: 600,
+              marginLeft: 12,
+            }}
+          >
+            性能监控
+          </Link>
+          <Link
+            href="/rsc-edge"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 8,
+              padding: '12px 20px',
+              borderRadius: 999,
+              background: '#0ea5e9',
+              color: '#fff',
+              fontWeight: 600,
+              marginLeft: 12,
+            }}
+          >
+            Edge Runtime
+          </Link>
+          <Link
+            href="/rsc-ppr"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 8,
+              padding: '12px 20px',
+              borderRadius: 999,
+              background: '#f97316',
+              color: '#fff',
+              fontWeight: 600,
+              marginLeft: 12,
+            }}
+          >
+            Partial Prerender
+          </Link>
+        </div>
       </section>
       <section
         style={{
@@ -94,6 +159,10 @@ export default function Home() {
           <li>验证客户端组件的水合与增量加载</li>
           <li>体验 Suspense 流式输出与客户端水合时间标记</li>
           <li>提交 Server Action，分析 Flight 回传与路径重新验证</li>
+          <li>使用 Flight 可视化工具解析和查看 Flight 数据包结构</li>
+          <li>监控 RSC 渲染性能指标，包括 FCP、水合时间等</li>
+          <li>对比 Edge Runtime 与 Node Runtime 的执行上下文和日志差异</li>
+          <li>体验 Partial Prerendering，将静态缓存与动态实时内容组合</li>
         </ul>
       </section>
     </main>

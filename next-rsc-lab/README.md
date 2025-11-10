@@ -32,9 +32,22 @@ src/app/rsc-streaming/
 src/app/rsc-actions/
 ├── page.tsx               # ActionsPage：Server Action + 表单交互入口
 ├── actions.ts             # `'use server'` 定义，负责处理表单并返回结果
-├── form-panel.tsx         # 使用 useFormState 的服务器组件，触发表单提交
+├── form-panel.tsx         # 使用 useActionState 的客户端组件，触发表单提交
 ├── form-submit-button.tsx # Client Component，利用 useFormStatus 展示 pending 状态
 └── result-stream.tsx      # 服务器组件，展示最新提交历史
+src/app/rsc-edge/
+├── page.tsx               # EdgeRuntimePage：强制运行在 Edge Runtime 的 RSC 页面
+└── client-edge-marker.tsx # 客户端组件，记录 Edge 页面水合时间与交互
+src/app/rsc-flight-viewer/
+├── page.tsx               # FlightViewerPage：Flight 数据可视化工具入口
+└── flight-viewer-client.tsx # 客户端组件，解析和可视化 Flight 数据包结构
+src/app/rsc-performance/
+├── page.tsx                    # PerformancePage：性能监控页面入口
+└── performance-monitor-client.tsx # 客户端组件，收集和展示性能指标
+src/app/rsc-ppr/
+├── page.tsx               # PprDemoPage：Partial Prerendering 实验入口
+├── static-summary.tsx     # 采用强缓存的服务器组件，展示静态内容
+└── dynamic-insights.tsx   # 使用 `cache: 'no-store'` 的动态组件，结合 Suspense 流式输出
 ```
 
 - `ServerPage`：通过 `fetch` 拉取 `https://jsonplaceholder.typicode.com/todos/1`，并在服务器端输出日志，确保每次请求都执行服务器渲染。
@@ -45,8 +58,18 @@ src/app/rsc-actions/
 - `ClientHydrationMarker`：利用 `useEffect` 输出水合时间与交互日志。
 - `ActionsPage`：集中展示表单提交、Server Action 执行与 Flight 状态回传。
 - `actions.ts`：通过 `'use server'` 声明的处理函数，模拟耗时任务并调用 `revalidatePath`。
-- `form-panel.tsx`：使用 `useFormState` 捕获 server action 返回值，渲染成功或错误状态。
+- `form-panel.tsx`：使用 `useActionState` 捕获 server action 返回值，渲染成功或错误状态。
 - `result-stream.tsx`：读取内存中的最近提交，呈现 Flight 触发的最新列表。
+- `EdgeRuntimePage`：演示 RSC 在 Edge Runtime 环境下的执行上下文、网络能力和日志。
+- `client-edge-marker.tsx`：记录 Edge 页面水合时间，验证客户端交互是否正常。
+- `fetchGeoInfoFromApi`：调用 `https://ipapi.co/json/` 获取实时地理信息，失败时回退 Edge 请求头。
+- `FlightViewerPage`：提供交互式工具，帮助解析和可视化 Flight 数据包的结构。
+- `flight-viewer-client.tsx`：解析 Flight JSON 数据，以树形结构展示组件节点、Props 和客户端引用。
+- `PerformancePage`：实时监控 RSC 渲染性能，包括 FCP、FP、水合时间等关键指标。
+- `performance-monitor-client.tsx`：使用 Performance API 收集指标，提供颜色编码的性能报告。
+- `PprDemoPage`：展示 Partial Prerendering，静态内容在构建期生成，动态内容请求时流式补全。
+- `static-summary.tsx`：使用 `cache: 'force-cache'` 获取数据，展示可复用的静态部分。
+- `dynamic-insights.tsx`：模拟慢接口并通过 `cache: 'no-store'` 返回实时数据，配合 Suspense fallback。
 
 ## 观察步骤
 
@@ -92,6 +115,33 @@ src/app/rsc-actions/
    - Network → 过滤 `?__rsc`，可以看到表单结果封装在 Flight 数据里返回，并携带新的列表节点  
    - `form-panel` 会即时显示 server action 返回的状态；`result-stream` 因 `revalidatePath('/rsc-actions')` 被触发而刷新，印证服务器推送的最新数据。
 
+8. **Flight 数据可视化**  
+   - 访问 `/rsc-flight-viewer`，打开任意 RSC 页面（如 `/rsc-demo`）  
+   - 在 Network 面板中找到 `?__rsc` 请求，复制 Response 内容  
+   - 将数据粘贴到 Flight 可视化工具的输入框，点击"解析 Flight 数据"  
+   - 工具会以树形结构展示组件节点，高亮客户端组件引用，并可展开查看 Props 详情  
+   - 帮助你直观理解 Flight 协议如何编码组件树和模块引用
+
+9. **性能监控与分析**  
+   - 访问 `/rsc-performance`，页面会自动收集性能指标  
+   - 查看 FCP（首次内容绘制）、FP（首次绘制）、水合时间等关键指标  
+   - 指标会根据性能表现用颜色编码（绿色=优秀，黄色=一般，红色=需优化）  
+   - 结合 Chrome DevTools Performance 面板录制，可以更详细地分析渲染时间线
+
+10. **Edge Runtime 对比实验**  
+    - 访问 `/rsc-edge`，该页面强制运行在 Edge Runtime  
+    - 打开终端日志，留意 `[Edge Runtime]` 输出，验证执行上下文  
+    - 页面优先调用 `https://ipapi.co/json/` 获取地理信息（城市、国家、时区、运营商、IP），若失败则回退 Edge 请求头  
+    - 观察 `fetch` 调用耗时，体会 Edge Runtime 的低延迟网络能力  
+    - 客户端组件 `ClientEdgeMarker` 会记录水合时间，并在 Console 打印日志
+
+11. **Partial Prerendering（PPR）**  
+    - 访问 `/rsc-ppr`，该页面设置 `revalidate = 120`，静态部分在构建期生成  
+    - `StaticSummary` 使用 `cache: 'force-cache'`，命中缓存时服务器日志会提示  
+    - `DynamicInsights` 通过 `cache: 'no-store'` 在请求时拉取实时引用，模拟 2.5 秒延迟  
+    - Suspense fallback 立即返回，真实数据流式补全，观察终端 `[PPR]` 日志和 Network 中的分段响应  
+    - 多次刷新对比静态段是否复用缓存、动态段是否重新生成
+
 ## 进阶探索
 
 - **调试服务器执行**：使用 `NODE_OPTIONS="--inspect" pnpm dev`，在 `chrome://inspect` 中连接 Node 进程，对 `.next/server/app/rsc-demo/page.js` 打断点。
@@ -109,7 +159,14 @@ src/app/rsc-actions/
 | 看不到 `?__rsc` 请求 | Next.js 版本不同可能参数名不同，搜索 Network 中的 `rsc` / `flight` 字样 |
 | 客户端按钮不可点击 | 检查浏览器控制台是否有 JS 报错，确认页面启用了 JS |
 
+## 工具与资源
+
+- **Flight 数据可视化工具** (`/rsc-flight-viewer`)：帮助解析和理解 Flight 数据包结构
+- **性能监控面板** (`/rsc-performance`)：实时监控 RSC 渲染性能指标
+
 ## 下一步规划
 
-- 引入可视化时间线，展示 Flight 到达、HTML ready、Hydration complete 的时序
-- 补充 Server Actions、Partial Prerendering 等高级案例，构成完整的 RSC 学习路径
+- 添加 Edge Runtime 实验，对比 Node.js Runtime 和 Edge Runtime 的差异
+- 补充 Partial Prerendering 等高级案例，构成完整的 RSC 学习路径
+- 增强 Flight 可视化工具，支持实时捕获和自动解析 Flight 数据
+- 添加性能对比功能，对比不同缓存策略对性能的影响
