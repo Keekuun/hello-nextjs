@@ -1,7 +1,6 @@
 export const runtime = 'edge'
 export const preferredRegion = 'auto'
 
-import CodePreview from '../../components/code/CodePreview'
 import ClientEdgeMarker from './client-edge-marker'
 import { headers } from 'next/headers'
 
@@ -218,29 +217,61 @@ export default async function EdgeRuntimePage() {
 
       <section
         style={{
+          border: '1px solid #334155',
+          borderRadius: 12,
+          padding: 20,
+          background: '#0f172a',
+          color: '#e2e8f0',
           display: 'grid',
-          gap: 18,
+          gap: 16,
         }}
       >
-        <h2 style={{ fontSize: 22, margin: 0 }}>关键代码预览</h2>
-        <div
+        <h2 style={{ fontSize: 20, margin: 0 }}>关键代码片段（简化版）</h2>
+        <pre
           style={{
-            display: 'grid',
-            gap: 18,
-            gridTemplateColumns: 'repeat(auto-fit,minmax(320px,1fr))',
+            margin: 0,
+            whiteSpace: 'pre-wrap',
+            wordBreak: 'break-word',
+            fontFamily:
+              '"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace',
+            fontSize: 13,
+            lineHeight: 1.6,
+            background: '#111827',
+            padding: 16,
+            borderRadius: 10,
           }}
-        >
-          <CodePreview
-            title="EdgeRuntimePage"
-            file="src/app/rsc-edge/page.tsx"
-            description="设置页面运行在 Edge Runtime，并获取外部 API + headers 数据。"
-          />
-          <CodePreview
-            title="ClientEdgeMarker"
-            file="src/app/rsc-edge/client-edge-marker.tsx"
-            description="记录水合时间与交互日志，验证 Edge 页面前端行为。"
-          />
-        </div>
+        >{`export const runtime = 'edge'
+
+async function fetchGeoInfoFromApi() {
+  const response = await fetch('https://ipapi.co/json/', {
+    cache: 'no-store',
+    headers: { Accept: 'application/json' },
+  })
+
+  if (!response.ok) {
+    console.warn('[Edge Runtime] ipapi.co 返回状态:', response.status)
+    return null
+  }
+
+  const data = await response.json()
+  return {
+    country: data.country_name,
+    city: data.city,
+    org: data.org,
+    timezone: data.timezone,
+  }
+}
+
+export default async function EdgeRuntimePage() {
+  const geoFromApi = await fetchGeoInfoFromApi()
+  const timeInfo = await fetchEdgeTime()
+  // ...
+}`}
+        </pre>
+        <p style={{ margin: 0, color: '#cbd5f5', fontSize: 13 }}>
+          完整源码可在 <code>src/app/rsc-edge</code> 目录中查看。出于 Edge Runtime
+          的限制，此处采用静态片段展示关键逻辑。
+        </p>
       </section>
     </main>
   )

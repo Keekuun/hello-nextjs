@@ -10,6 +10,7 @@
     "format": "biome format --write"
   },
   "dependencies": {
+    "@types/react-syntax-highlighter": "^15.5.13",
     "next": "16.0.1",
     "react": "19.2.0",
     "react-dom": "19.2.0",

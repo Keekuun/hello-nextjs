@@ -58,7 +58,10 @@ export default function PerformanceMonitorClient() {
     return `${ms.toFixed(2)} ms`
   }
 
-  function getMetricColor(value?: number, threshold: number): string {
+  function getMetricColor(
+    value: number | undefined,
+    threshold: number,
+  ): string {
     if (value === undefined) return '#64748b'
     if (value < threshold) return '#059669'
     if (value < threshold * 1.5) return '#d97706'
