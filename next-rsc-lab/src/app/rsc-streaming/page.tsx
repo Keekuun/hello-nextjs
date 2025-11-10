@@ -1,3 +1,4 @@
+import CodePreview from '../../components/code/CodePreview'
 import { Suspense } from 'react'
 import SlowServerPanel from './slow-server-panel'
 import ClientHydrationMarker from './client-hydration-marker'
@@ -47,6 +48,38 @@ export default function StreamingPage() {
       <section>
         <h2>客户端水合标记</h2>
         <ClientHydrationMarker />
+      </section>
+
+      <section
+        style={{
+          display: 'grid',
+          gap: 18,
+        }}
+      >
+        <h2 style={{ fontSize: 22, margin: 0 }}>关键代码预览</h2>
+        <div
+          style={{
+            display: 'grid',
+            gap: 18,
+            gridTemplateColumns: 'repeat(auto-fit,minmax(320px,1fr))',
+          }}
+        >
+          <CodePreview
+            title="Streaming 页面入口"
+            file="src/app/rsc-streaming/page.tsx"
+            description="页面开启 Suspense，fallback 先行返回，3 秒后慢组件流式补全。"
+          />
+          <CodePreview
+            title="SlowServerPanel"
+            file="src/app/rsc-streaming/slow-server-panel.tsx"
+            description="模拟后端延迟，查看 Flight 分片如何按序抵达。"
+          />
+          <CodePreview
+            title="ClientHydrationMarker"
+            file="src/app/rsc-streaming/client-hydration-marker.tsx"
+            description="记录水合完成时间并提供交互，验证客户端增量加载。"
+          />
+        </div>
       </section>
     </main>
   )

@@ -1,5 +1,6 @@
 export const revalidate = 120
 
+import CodePreview from '../../components/code/CodePreview'
 import { Suspense } from 'react'
 import StaticSummary from './static-summary'
 import DynamicInsights from './dynamic-insights'
@@ -44,6 +45,38 @@ export default function PprDemoPage() {
         <Suspense fallback={<DynamicFallback />}>
           <DynamicInsights />
         </Suspense>
+      </section>
+
+      <section
+        style={{
+          display: 'grid',
+          gap: 18,
+        }}
+      >
+        <h2 style={{ fontSize: 22, margin: 0 }}>关键代码预览</h2>
+        <div
+          style={{
+            display: 'grid',
+            gap: 18,
+            gridTemplateColumns: 'repeat(auto-fit,minmax(320px,1fr))',
+          }}
+        >
+          <CodePreview
+            title="PprDemoPage"
+            file="src/app/rsc-ppr/page.tsx"
+            description="配置 revalidate，组合静态与动态部分形成 PPR 页面。"
+          />
+          <CodePreview
+            title="static-summary.tsx"
+            file="src/app/rsc-ppr/static-summary.tsx"
+            description="使用 force-cache + revalidate 拉取静态摘要，命中缓存可观测日志。"
+          />
+          <CodePreview
+            title="dynamic-insights.tsx"
+            file="src/app/rsc-ppr/dynamic-insights.tsx"
+            description="通过 no-store 获取实时数据，并模拟延迟以触发 Suspense fallback。"
+          />
+        </div>
       </section>
     </main>
   )

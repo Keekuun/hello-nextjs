@@ -48,6 +48,13 @@ src/app/rsc-ppr/
 ├── page.tsx               # PprDemoPage：Partial Prerendering 实验入口
 ├── static-summary.tsx     # 采用强缓存的服务器组件，展示静态内容
 └── dynamic-insights.tsx   # 使用 `cache: 'no-store'` 的动态组件，结合 Suspense 流式输出
+src/app/rsc-actions-optimistic/
+├── page.tsx               # OptimisticActionsPage：useOptimistic + Server Actions 实验入口
+├── actions.ts             # createNote/listNotes，模拟后端校验与延迟
+└── notes-board.tsx        # 客户端组件，演示 useOptimistic 和 useTransition
+src/app/rsc-flight-recorder/
+├── page.tsx               # FlightRecorderPage：实时捕获 Flight chunk 的入口
+└── recorder-client.tsx    # 客户端组件，轮询 window.__next_f 并展示 chunk
 ```
 
 - `ServerPage`：通过 `fetch` 拉取 `https://jsonplaceholder.typicode.com/todos/1`，并在服务器端输出日志，确保每次请求都执行服务器渲染。
@@ -70,6 +77,10 @@ src/app/rsc-ppr/
 - `PprDemoPage`：展示 Partial Prerendering，静态内容在构建期生成，动态内容请求时流式补全。
 - `static-summary.tsx`：使用 `cache: 'force-cache'` 获取数据，展示可复用的静态部分。
 - `dynamic-insights.tsx`：模拟慢接口并通过 `cache: 'no-store'` 返回实时数据，配合 Suspense fallback。
+- `OptimisticActionsPage`：示范如何结合 useOptimistic 与 Server Actions 实现乐观更新。
+- `notes-board.tsx`：客户端组件，使用 useOptimistic/useTransition 管理临时笔记列表。
+- `FlightRecorderPage`：自动捕获浏览器内的 Flight chunk，方便对比调试。
+- `recorder-client.tsx`：轮询 `window.__next_f` 并提供解析、清除、暂停捕获等操作。
 
 ## 观察步骤
 
@@ -141,6 +152,18 @@ src/app/rsc-ppr/
     - `DynamicInsights` 通过 `cache: 'no-store'` 在请求时拉取实时引用，模拟 2.5 秒延迟  
     - Suspense fallback 立即返回，真实数据流式补全，观察终端 `[PPR]` 日志和 Network 中的分段响应  
     - 多次刷新对比静态段是否复用缓存、动态段是否重新生成
+
+12. **Server Actions 乐观更新**  
+    - 打开 `/rsc-actions-optimistic`，输入 4 个字符以上的内容并快速提交多次  
+    - 注意新条目会立即出现并标记为“等待服务器确认”，稍后替换为真实记录  
+    - 试着提交过短的内容，观察 useOptimistic 如何回滚临时条目并显示错误信息  
+    - 查看终端中 `[Server Action]` 日志，验证 revalidatePath 是否被触发
+
+13. **Flight Recorder 自动捕获**  
+    - 打开 `/rsc-flight-recorder`，保持页面运行  
+    - 在新标签页访问其他 RSC 页面并触发操作（如刷新或提交表单）  
+    - 返回 Recorder 页即可看到 chunk 实时追加，可点选查看 JSON 结构  
+    - 支持暂停捕获、清空记录，方便针对特定操作做精确比对
 
 ## 进阶探索
 

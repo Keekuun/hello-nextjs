@@ -1,3 +1,4 @@
+import CodePreview from '../../components/code/CodePreview'
 import FormPanel from './form-panel'
 import ResultStream from './result-stream'
 
@@ -24,6 +25,39 @@ export default function ActionsPage() {
 
       <FormPanel />
       <ResultStream />
+
+      <section
+        style={{
+          width: '100%',
+          display: 'grid',
+          gap: 18,
+        }}
+      >
+        <h2 style={{ fontSize: 22, margin: 0 }}>关键代码预览</h2>
+        <div
+          style={{
+            display: 'grid',
+            gap: 18,
+            gridTemplateColumns: 'repeat(auto-fit,minmax(320px,1fr))',
+          }}
+        >
+          <CodePreview
+            title="Server Actions 页面入口"
+            file="src/app/rsc-actions/page.tsx"
+            description="组合表单与结果展示，构成基础的 Server Action 交互流。"
+          />
+          <CodePreview
+            title="form-panel.tsx"
+            file="src/app/rsc-actions/form-panel.tsx"
+            description="表单客户端组件，使用 useActionState 捕获 actions 返回值。"
+          />
+          <CodePreview
+            title="actions.ts"
+            file="src/app/rsc-actions/actions.ts"
+            description="Server Action 实现，模拟后端延迟并触发 revalidatePath。"
+          />
+        </div>
+      </section>
     </main>
   )
 }

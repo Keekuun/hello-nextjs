@@ -1,6 +1,7 @@
 export const runtime = 'edge'
 export const preferredRegion = 'auto'
 
+import CodePreview from '../../components/code/CodePreview'
 import ClientEdgeMarker from './client-edge-marker'
 import { headers } from 'next/headers'
 
@@ -213,6 +214,33 @@ export default async function EdgeRuntimePage() {
       >
         <h2>客户端水合验证</h2>
         <ClientEdgeMarker />
+      </section>
+
+      <section
+        style={{
+          display: 'grid',
+          gap: 18,
+        }}
+      >
+        <h2 style={{ fontSize: 22, margin: 0 }}>关键代码预览</h2>
+        <div
+          style={{
+            display: 'grid',
+            gap: 18,
+            gridTemplateColumns: 'repeat(auto-fit,minmax(320px,1fr))',
+          }}
+        >
+          <CodePreview
+            title="EdgeRuntimePage"
+            file="src/app/rsc-edge/page.tsx"
+            description="设置页面运行在 Edge Runtime，并获取外部 API + headers 数据。"
+          />
+          <CodePreview
+            title="ClientEdgeMarker"
+            file="src/app/rsc-edge/client-edge-marker.tsx"
+            description="记录水合时间与交互日志，验证 Edge 页面前端行为。"
+          />
+        </div>
       </section>
     </main>
   )
