@@ -11,6 +11,9 @@ type Props = {
   description?: string
 }
 
+const REPO_BASE_URL =
+  'https://github.com/Keekuun/hello-nextjs/blob/main/next-rsc-lab/'
+
 const readCodeFile = cache(async (absolutePath: string) => {
   const content = await readFile(absolutePath, 'utf-8')
   return content
@@ -48,6 +51,7 @@ export default async function CodePreview({
     >
       <header
         style={{
+          position: 'relative',
           display: 'flex',
           flexDirection: 'column',
           gap: 6,
@@ -79,6 +83,22 @@ export default async function CodePreview({
             {description}
           </p>
         )}
+        <a
+          href={`${REPO_BASE_URL}${file}`}
+          target="_blank"
+          rel="noreferrer"
+          style={{
+            position: 'absolute',
+            top: 18,
+            right: 22,
+            fontSize: 12,
+            color: '#60a5fa',
+            textDecoration: 'none',
+            fontWeight: 600,
+          }}
+        >
+          查看源码 ↗
+        </a>
       </header>
 
       <div style={{ padding: 0 }}>
