@@ -603,3 +603,35 @@ a {
     justify-content: flex-end;
   }
 }
+
+.pwa-install-btn {
+  position: fixed;
+  bottom: 28px;
+  right: clamp(16px, 5vw, 32px);
+  padding: 12px 20px;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(135deg, #22d3ee, #6366f1);
+  color: #0f172a;
+  font-weight: 600;
+  font-size: 14px;
+  box-shadow: 0 18px 40px rgba(99, 102, 241, 0.35);
+  cursor: pointer;
+  z-index: 1001;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pwa-install-btn:hover {
+  box-shadow: 0 24px 50px rgba(99, 102, 241, 0.4);
+}
+
+@media (max-width: 640px) {
+  .pwa-install-btn {
+    left: clamp(16px, 6vw, 32px);
+    right: clamp(16px, 6vw, 32px);
+    bottom: 24px;
+    justify-content: center;
+  }
+}
