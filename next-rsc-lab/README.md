@@ -55,6 +55,14 @@ src/app/rsc-actions-optimistic/
 src/app/rsc-flight-recorder/
 ├── page.tsx               # FlightRecorderPage：实时捕获 Flight chunk 的入口
 └── recorder-client.tsx    # 客户端组件，轮询 window.__next_f 并展示 chunk
+src/app/rsc-cache-lab/
+├── page.tsx               # CacheLabPage：对比 revalidateTag、unstable_cache 与实时数据
+├── data.ts                # 数据源定义，包含缓存策略与实时脉冲
+├── actions.ts             # Server Actions，调用 revalidateTag / revalidatePath
+├── cache-control-panel.tsx# 客户端控制台，触发缓存刷新
+├── cached-quote.tsx       # 展示带 tag 的缓存 Fetch 结果
+├── insight-metrics.tsx    # 展示 unstable_cache 的计算结果
+└── live-pulse.tsx         # 无缓存的实时数据对照
 src/app/api-lifecycle/
 ├── page.tsx               # ApiLifecyclePage：汇总 headers/cookies/draftMode、展示 API Playground
 ├── components/
@@ -186,6 +194,12 @@ instrumentation.ts          # register 钩子，记录启动时机
     - 在终端留意 middleware 输出的请求信息以及响应头 `x-middleware-request-id`  
     - 阅读 `instrumentation.ts` 的日志，了解 register 钩子何时被调用
 
+15. **RSC 缓存策略实验**  
+    - 打开 `/rsc-cache-lab`，先记录卡片显示的引用、指标与实时脉冲时间  
+    - 点击「刷新缓存的引用」按钮，Server Action 会执行 `revalidateTag('cached-quote')`，稍后只刷新引用卡片  
+    - 点击「刷新计算指标」按钮，观察 `unstable_cache` 绑定的 `insight-metrics` tag 被强制失效，新的耗时与 Fibonacci 采样会更新  
+    - 点击「刷新全部并重新渲染页面」，触发 `revalidatePath('/rsc-cache-lab')`，所有缓存组件与实时脉冲共同刷新，终端会输出 `[CacheLab]` 日志对比缓存命中与实时计算耗时
+
 ## 进阶探索
 
 - **调试服务器执行**：使用 `NODE_OPTIONS="--inspect" pnpm dev`，在 `chrome://inspect` 中连接 Node 进程，对 `.next/server/app/rsc-demo/page.js` 打断点。
@@ -207,6 +221,7 @@ instrumentation.ts          # register 钩子，记录启动时机
 
 - **Flight 数据可视化工具** (`/rsc-flight-viewer`)：帮助解析和理解 Flight 数据包结构
 - **性能监控面板** (`/rsc-performance`)：实时监控 RSC 渲染性能指标
+- **缓存策略实验室** (`/rsc-cache-lab`)：掌握 `revalidateTag`、`unstable_cache` 与实时数据的协同刷新流程
 
 ## 下一步规划
 
@@ -214,3 +229,4 @@ instrumentation.ts          # register 钩子，记录启动时机
 - 补充 Partial Prerendering 等高级案例，构成完整的 RSC 学习路径
 - 增强 Flight 可视化工具，支持实时捕获和自动解析 Flight 数据
 - 添加性能对比功能，对比不同缓存策略对性能的影响
+- 探索 Service Worker 与 RSC 缓存联动，进一步完善离线与实时刷新策略

@@ -32,6 +32,7 @@ const navGroups: NavGroup[] = [
       { href: '/rsc-edge', label: 'Edge Runtime' },
       { href: '/rsc-flight-viewer', label: 'Flight 数据可视化' },
       { href: '/rsc-flight-recorder', label: 'Flight Recorder' },
+      { href: '/rsc-cache-lab', label: '缓存策略实验' },
     ],
   },
   {

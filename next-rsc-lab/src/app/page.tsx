@@ -66,6 +66,13 @@ const demoCards: DemoCard[] = [
     category: '数据流',
   },
   {
+    title: '缓存策略实验',
+    description: '`revalidateTag`、`unstable_cache` 与实时数据对比，掌握 RSC 缓存刷新模式。',
+    href: '/rsc-cache-lab',
+    accent: '#0ea5e9',
+    category: '数据流',
+  },
+  {
     title: 'Next.js API 生命周期',
     description: 'Route Handler、ReadableStream、middleware 与 instrumentation。',
     href: '/api-lifecycle',
@@ -93,6 +100,7 @@ const guidePoints = [
   '体验 Partial Prerendering，将静态缓存与动态实时内容组合',
   '在客户端使用 useOptimistic 实现无闪烁的乐观更新流',
   '使用 Route Handler、middleware、instrumentation 观察 Next.js API 生命周期',
+  '实践 revalidateTag / unstable_cache，构建 RSC 缓存刷新与实时数据协同策略',
 ]
 
 export default function Home() {
