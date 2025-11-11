@@ -2,7 +2,6 @@ const CACHE_NAME = 'rsc-lab-static-v1'
 const APP_SHELL = ['/', '/manifest.json']
 
 self.addEventListener('install', (event) => {
-  self.skipWaiting()
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       return cache.addAll(APP_SHELL)
@@ -35,4 +34,10 @@ self.addEventListener('fetch', (event) => {
       return fetch(request)
     }),
   )
+})
+
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting()
+  }
 })

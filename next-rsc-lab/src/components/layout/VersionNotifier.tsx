@@ -8,6 +8,7 @@ const CHECK_INTERVAL = 60_000
 export default function VersionNotifier() {
   const [show, setShow] = useState(false)
   const [latestVersion, setLatestVersion] = useState<string | null>(null)
+  const [pendingRegistration, setPendingRegistration] = useState<ServiceWorkerRegistration | null>(null)
   const currentVersionRef = useRef<string>('')
   const timerRef = useRef<NodeJS.Timeout | null>(null)
 
@@ -26,6 +27,10 @@ export default function VersionNotifier() {
         if (data?.version && data.version !== currentVersionRef.current) {
           setLatestVersion(data.version)
           setShow(true)
+          if ('serviceWorker' in navigator) {
+            const registration = await navigator.serviceWorker.getRegistration()
+            await registration?.update()
+          }
         }
       } catch (error) {
         console.warn('[VersionNotifier] 检查新版本失败:', error)
@@ -41,16 +46,45 @@ export default function VersionNotifier() {
     }
   }, [])
 
-  const handleRefresh = () => {
+  useEffect(() => {
+    const swUpdateHandler = (event: CustomEvent<ServiceWorkerRegistration>) => {
+      setPendingRegistration(event.detail)
+      setShow(true)
+    }
+
+    window.addEventListener('swUpdated', swUpdateHandler as EventListener)
+
+    return () => {
+      window.removeEventListener('swUpdated', swUpdateHandler as EventListener)
+    }
+  }, [])
+
+  const handleRefresh = async () => {
     if (latestVersion) {
       currentVersionRef.current = latestVersion
     }
+
+    setShow(false)
+    setLatestVersion(null)
+
+    if (pendingRegistration?.waiting) {
+      await new Promise<void>((resolve) => {
+        const listener = () => {
+          navigator.serviceWorker.removeEventListener('controllerchange', listener)
+          resolve()
+        }
+        navigator.serviceWorker.addEventListener('controllerchange', listener)
+        pendingRegistration.waiting?.postMessage({ type: 'SKIP_WAITING' })
+      })
+    }
+
+    setPendingRegistration(null)
+
     window.location.reload()
   }
 
   const handleDismiss = () => {
     setShow(false)
-    setLatestVersion(null)
   }
 
   return (
@@ -65,7 +99,7 @@ export default function VersionNotifier() {
         >
           <div className="version-notifier__body">
             <strong>检测到新版本</strong>
-            <span>实验室内容已更新，刷新即可体验最新效果。</span>
+            <span>实验室内容或 PWA 已更新，刷新即可体验最新效果。</span>
           </div>
           <div className="version-notifier__actions">
             <button type="button" onClick={handleDismiss}>
