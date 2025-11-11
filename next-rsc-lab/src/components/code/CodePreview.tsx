@@ -2,6 +2,7 @@ import { cache } from 'react'
 import { readFile } from 'node:fs/promises'
 import path from 'node:path'
 import CodeHighlight from './CodeHighlight'
+import CodePreviewModalTrigger from './CodePreviewModalTrigger'
 
 type Props = {
   title: string
@@ -36,6 +37,9 @@ export default async function CodePreview({
     const sliced = list.slice(Math.max(0, start - 1), end)
     display = sliced.join('\n')
   }
+
+  const lineCount = display.split('\n').length
+  const shouldClamp = lineCount > 24
 
   return (
     <article
@@ -101,9 +105,45 @@ export default async function CodePreview({
         </a>
       </header>
 
-      <div style={{ padding: 0 }}>
+      <div
+        style={{
+          padding: 0,
+          position: 'relative',
+          maxHeight: shouldClamp ? 320 : undefined,
+          overflow: shouldClamp ? 'hidden' : undefined,
+        }}
+      >
         <CodeHighlight language={language} code={display} />
+        {shouldClamp && (
+          <div
+            style={{
+              position: 'absolute',
+              inset: 'auto 0 0 0',
+              height: 72,
+              background:
+                'linear-gradient(180deg, rgba(15,23,42,0) 0%, rgba(15,23,42,0.92) 80%)',
+              pointerEvents: 'none',
+            }}
+          />
+        )}
       </div>
+
+      <footer
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          padding: '16px 20px',
+          borderTop: '1px solid rgba(148,163,184,0.2)',
+          background: '#f8fafc',
+        }}
+      >
+        <span style={{ fontSize: 12, color: '#475569' }}>
+          显示 {lineCount} 行 ·{' '}
+          {shouldClamp ? '内容已折叠，可放大查看完整代码' : '当前已展示全部代码'}
+        </span>
+        <CodePreviewModalTrigger code={source} language={language} title={title} file={file} />
+      </footer>
     </article>
   )
 }

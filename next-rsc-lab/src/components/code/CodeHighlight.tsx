@@ -18,7 +18,7 @@ export default function CodeHighlight({ language = 'tsx', code }: Props) {
       style={oneDark}
       customStyle={{
         margin: 0,
-        borderRadius: 12,
+        borderRadius: 0,
         padding: '18px 20px',
         fontSize: 13,
         lineHeight: 1.6,

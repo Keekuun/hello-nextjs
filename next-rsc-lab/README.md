@@ -55,6 +55,15 @@ src/app/rsc-actions-optimistic/
 src/app/rsc-flight-recorder/
 ├── page.tsx               # FlightRecorderPage：实时捕获 Flight chunk 的入口
 └── recorder-client.tsx    # 客户端组件，轮询 window.__next_f 并展示 chunk
+src/app/api-lifecycle/
+├── page.tsx               # ApiLifecyclePage：汇总 headers/cookies/draftMode、展示 API Playground
+├── components/
+│   └── ApiPlayground.tsx  # 客户端组件，发起 fetch 并记录日志
+└── api/
+    ├── echo/route.ts      # Route Handler，回显请求上下文
+    └── stream/route.ts    # Route Handler，ReadableStream 分块输出
+middleware.ts               # Edge Middleware，拦截 /api-lifecycle 下的请求
+instrumentation.ts          # register 钩子，记录启动时机
 ```
 
 - `ServerPage`：通过 `fetch` 拉取 `https://jsonplaceholder.typicode.com/todos/1`，并在服务器端输出日志，确保每次请求都执行服务器渲染。
@@ -81,6 +90,12 @@ src/app/rsc-flight-recorder/
 - `notes-board.tsx`：客户端组件，使用 useOptimistic/useTransition 管理临时笔记列表。
 - `FlightRecorderPage`：自动捕获浏览器内的 Flight chunk，方便对比调试。
 - `recorder-client.tsx`：轮询 `window.__next_f` 并提供解析、清除、暂停捕获等操作。
+- `ApiLifecyclePage`：结合 headers/cookies/draftMode 展示请求上下文，提供 Playground 调用 Route Handler。
+- `ApiPlayground.tsx`：客户端组件，演示调用 Echo/Stream Route Handler 并展示响应日志。
+- `echo/route.ts`：Route Handler 回显请求信息，设定缓存头。
+- `stream/route.ts`：创建 ReadableStream，模拟 Flight 分块输出。
+- `middleware.ts`：Edge 中间件，记录请求并注入自定义 Header。
+- `instrumentation.ts`：演示 register 钩子在启动时触发。
 
 ## 观察步骤
 
@@ -164,6 +179,12 @@ src/app/rsc-flight-recorder/
     - 在新标签页访问其他 RSC 页面并触发操作（如刷新或提交表单）  
     - 返回 Recorder 页即可看到 chunk 实时追加，可点选查看 JSON 结构  
     - 支持暂停捕获、清空记录，方便针对特定操作做精确比对
+
+14. **Next.js API 生命周期实验**  
+    - 访问 `/api-lifecycle`，查看服务器组件对 headers/cookies/draftMode 的读数  
+    - 使用页面下方 Playground 调用 `/api-lifecycle/api/echo` 与 `/api-lifecycle/api/stream`，观察日志  
+    - 在终端留意 middleware 输出的请求信息以及响应头 `x-middleware-request-id`  
+    - 阅读 `instrumentation.ts` 的日志，了解 register 钩子何时被调用
 
 ## 进阶探索
 

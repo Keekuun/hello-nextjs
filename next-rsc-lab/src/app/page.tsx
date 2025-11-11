@@ -66,6 +66,13 @@ const demoCards: DemoCard[] = [
     category: '数据流',
   },
   {
+    title: 'Next.js API 生命周期',
+    description: 'Route Handler、ReadableStream、middleware 与 instrumentation。',
+    href: '/api-lifecycle',
+    accent: '#f59e0b',
+    category: 'API & 底层',
+  },
+  {
     title: '性能监控',
     description: '收集 FCP、Hydration、TTI 等指标，量化 RSC 渲染表现。',
     href: '/rsc-performance',
@@ -85,6 +92,7 @@ const guidePoints = [
   '对比 Edge 与 Node Runtime 的执行上下文和网络能力',
   '体验 Partial Prerendering，将静态缓存与动态实时内容组合',
   '在客户端使用 useOptimistic 实现无闪烁的乐观更新流',
+  '使用 Route Handler、middleware、instrumentation 观察 Next.js API 生命周期',
 ]
 
 export default function Home() {
