@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
-import { useMemo, useRef, useState } from 'react'
+import { useMemo, useRef, useState, useEffect } from 'react'
 
 type NavItem = {
   href: string
@@ -53,6 +53,16 @@ export default function SiteHeader() {
   const [isOpen, setIsOpen] = useState(false)
   const [openGroup, setOpenGroup] = useState<string | null>(null)
   const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const isMobile = useRef(false)
+
+  useEffect(() => {
+    const update = () => {
+      isMobile.current = window.matchMedia('(max-width: 960px)').matches
+    }
+    update()
+    window.addEventListener('resize', update)
+    return () => window.removeEventListener('resize', update)
+  }, [])
 
   const activeMap = useMemo(() => {
     const map = new Map<string, boolean>()
@@ -88,10 +98,14 @@ export default function SiteHeader() {
   }
 
   const handleGroupClick = (label: string) => {
+    if (!isOpen && isMobile.current) {
+      setIsOpen(true)
+    }
     setOpenGroup((prev) => (prev === label ? null : label))
   }
 
   const handleGroupMouseEnter = (label: string) => {
+    if (isMobile.current) return
     if (hoverTimer.current) {
       clearTimeout(hoverTimer.current)
       hoverTimer.current = null
@@ -100,6 +114,7 @@ export default function SiteHeader() {
   }
 
   const handleGroupMouseLeave = () => {
+    if (isMobile.current) return
     if (hoverTimer.current) {
       clearTimeout(hoverTimer.current)
     }
@@ -151,6 +166,7 @@ export default function SiteHeader() {
                   type="button"
                   className="site-header__groupButton"
                   onClick={() => handleGroupClick(group.label)}
+                  aria-expanded={groupOpen}
                 >
                   <span>{group.label}</span>
                   <span className="site-header__caret" aria-hidden="true" />

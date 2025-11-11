@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import SiteHeader from '../components/layout/SiteHeader'
+import RouteTransition from '../components/layout/RouteTransition'
+import RouteProgress from '../components/layout/RouteProgress'
 import './globals.css'
 
 const geistSans = Geist({
@@ -31,9 +33,10 @@ export default function RootLayout({
           跳到主要内容
         </a>
         <div className="app-shell">
+          <RouteProgress />
           <SiteHeader />
           <main id="main-content" className="app-main">
-            {children}
+            <RouteTransition>{children}</RouteTransition>
           </main>
           <footer className="site-footer flex justify-center items-center text-center">
             <div className="flex justify-center">

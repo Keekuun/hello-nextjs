@@ -62,13 +62,7 @@ export default async function GuidePage() {
             padding: '32px 28px',
           }}
         >
-          <div
-            style={{
-              color: '#0f172a',
-              lineHeight: 1.75,
-              fontSize: 15,
-            }}
-          >
+          <div className="markdown-body">
             <ReactMarkdown remarkPlugins={[remarkGfm]}>{readme}</ReactMarkdown>
           </div>
         </article>
