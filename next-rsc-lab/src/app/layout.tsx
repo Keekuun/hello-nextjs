@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from 'next/font/google'
 import SiteHeader from '../components/layout/SiteHeader'
 import RouteTransition from '../components/layout/RouteTransition'
 import RouteProgress from '../components/layout/RouteProgress'
+import VersionNotifier from '../components/layout/VersionNotifier'
+import { BUILD_VERSION } from '../lib/version'
 import './globals.css'
 
 const geistSans = Geist({
@@ -28,12 +30,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="zh-CN">
+      <head>
+        <meta name="app-version" content={BUILD_VERSION} />
+        <link rel="icon" href="/favicon.ico" />
+      </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <a href="#main-content" className="skip-link">
           跳到主要内容
         </a>
         <div className="app-shell">
           <RouteProgress />
+          <VersionNotifier />
           <SiteHeader />
           <main id="main-content" className="app-main">
             <RouteTransition>{children}</RouteTransition>

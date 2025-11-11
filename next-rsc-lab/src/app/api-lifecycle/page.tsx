@@ -75,6 +75,7 @@ export default async function ApiLifecyclePage() {
             borderRadius: 16,
             padding: 18,
             background: '#ffffff',
+            overflow: 'auto',
           }}
         >
           <h2 style={{ fontSize: 18, margin: 0 }}>请求头快照</h2>
@@ -97,6 +98,7 @@ export default async function ApiLifecyclePage() {
             borderRadius: 16,
             padding: 18,
             background: '#ffffff',
+            overflow: 'auto',
           }}
         >
           <h2 style={{ fontSize: 18, margin: 0 }}>Cookies</h2>
@@ -119,6 +121,7 @@ export default async function ApiLifecyclePage() {
             borderRadius: 16,
             padding: 18,
             background: '#ffffff',
+            overflow: 'auto',
           }}
         >
           <h2 style={{ fontSize: 18, margin: 0 }}>Draft Mode</h2>

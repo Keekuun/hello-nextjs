@@ -528,3 +528,78 @@ a {
   border-radius: 999px;
   width: 0;
 }
+
+.version-notifier {
+  position: fixed;
+  top: 52px;
+  right: clamp(16px, 4vw, 28px);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  background: rgba(15, 23, 42, 0.94);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  border-radius: 16px;
+  color: #e2e8f0;
+  box-shadow: 0 22px 60px rgba(15, 23, 42, 0.45);
+  z-index: 1001;
+  backdrop-filter: blur(10px);
+}
+
+.version-notifier__body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 14px;
+}
+
+.version-notifier__body strong {
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #38bdf8;
+}
+
+.version-notifier__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.version-notifier__actions button {
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  background: rgba(30, 41, 59, 0.6);
+  color: #e2e8f0;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.18s ease, border-color 0.18s ease;
+}
+
+.version-notifier__actions button:hover {
+  background: rgba(59, 130, 246, 0.25);
+  border-color: rgba(59, 130, 246, 0.4);
+}
+
+.version-notifier__actions button.primary {
+  background: linear-gradient(135deg, #38bdf8, #6366f1);
+  border: none;
+  color: #0f172a;
+  font-weight: 600;
+  box-shadow: 0 12px 30px rgba(99, 102, 241, 0.35);
+}
+
+@media (max-width: 640px) {
+  .version-notifier {
+    left: clamp(12px, 6vw, 16px);
+    right: clamp(12px, 6vw, 16px);
+    top: 62px;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .version-notifier__actions {
+    justify-content: flex-end;
+  }
+}
