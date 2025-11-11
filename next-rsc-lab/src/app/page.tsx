@@ -5,7 +5,7 @@ type DemoCard = {
   description: string
   href: string
   accent: string
-  category: '核心概念' | '数据流' | '性能调试'
+  category: '核心概念' | '数据流' | '性能调试' | 'API & 底层'
 }
 
 const demoCards: DemoCard[] = [
@@ -105,13 +105,11 @@ export default function Home() {
   return (
     <main
       style={{
-        minHeight: '100vh',
-        padding: '72px 40px 96px',
-        fontFamily: 'sans-serif',
+        padding: 'clamp(64px, 12vh, 128px) clamp(18px, 6vw, 40px) clamp(80px, 14vh, 120px)',
         background: 'linear-gradient(180deg,#f8fafc 0%,#f1f5f9 100%)',
         display: 'flex',
         flexDirection: 'column',
-        gap: 32,
+        gap: 'clamp(24px, 6vw, 36px)',
       }}
     >
       <section
@@ -144,10 +142,16 @@ export default function Home() {
           >
             Next.js RSC 实验室
           </p>
-          <h1 style={{ fontSize: 42, lineHeight: 1.2, marginBottom: 20 }}>
+          <h1
+            style={{
+              fontSize: 'clamp(28px, 6vw, 44px)',
+              lineHeight: 1.2,
+              marginBottom: 20,
+            }}
+          >
             拆解 React Server Components 的完整运行链路
           </h1>
-          <p style={{ fontSize: 18, lineHeight: 1.8, color: '#cbd5f5' }}>
+          <p style={{ fontSize: 'clamp(15px, 2.8vw, 18px)', lineHeight: 1.8, color: '#cbd5f5' }}>
             通过一系列可运行的 Demo，逐步理解 Flight 协议、服务器渲染、水合、Server Actions、
             Edge Runtime 与性能调试。每个实验都附带操作指引与抓包提示，帮助你快速定位关键细节。
           </p>
@@ -167,7 +171,7 @@ export default function Home() {
                 background: '#2563eb',
                 color: '#fff',
                 fontWeight: 600,
-                fontSize: 15,
+                fontSize: 'clamp(14px, 2.6vw, 15px)',
               }}
             >
               从基础 Demo 开始
@@ -180,7 +184,7 @@ export default function Home() {
                 background: 'rgba(148, 163, 184, 0.15)',
                 color: '#cbd5f5',
                 fontWeight: 600,
-                fontSize: 15,
+                fontSize: 'clamp(14px, 2.6vw, 15px)',
                 border: '1px solid rgba(148, 163, 184, 0.35)',
               }}
             >
@@ -273,7 +277,7 @@ export default function Home() {
                       margin: 0,
                       color: '#475569',
                       lineHeight: 1.6,
-                      fontSize: 15,
+                      fontSize: 'clamp(14px, 2.8vw, 15px)',
                     }}
                   >
                     {item.description}
@@ -291,12 +295,18 @@ export default function Home() {
           margin: '0 auto',
           background: '#ffffff',
           borderRadius: 16,
-          padding: 28,
+          padding: 'clamp(20px, 5vw, 32px)',
           border: '1px solid rgba(148, 163, 184, 0.25)',
           boxShadow: '0 18px 50px rgba(15, 23, 42, 0.08)',
         }}
       >
-        <h2 style={{ fontSize: 24, marginBottom: 16, color: '#0f172a' }}>
+        <h2
+          style={{
+            fontSize: 'clamp(20px, 4vw, 24px)',
+            marginBottom: 16,
+            color: '#0f172a',
+          }}
+        >
           操作备忘
         </h2>
         <ul
@@ -305,7 +315,7 @@ export default function Home() {
             margin: 0,
             color: '#1f2937',
             lineHeight: 1.75,
-            fontSize: 15,
+            fontSize: 'clamp(14px, 2.8vw, 15px)',
           }}
         >
           {guidePoints.map((point) => (

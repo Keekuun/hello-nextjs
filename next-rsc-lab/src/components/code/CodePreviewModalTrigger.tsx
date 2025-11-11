@@ -31,9 +31,10 @@ export default function CodePreviewModalTrigger({ code, language, title, file }:
           fontSize: 13,
           cursor: 'pointer',
           transition: 'background 0.18s ease, transform 0.18s ease',
+          whiteSpace: 'nowrap',
         }}
       >
-        放大查看代码
+        查看代码
       </button>
 
       {open && (
@@ -92,6 +93,7 @@ export default function CodePreviewModalTrigger({ code, language, title, file }:
                   border: '1px solid rgba(148,163,184,0.35)',
                   fontSize: 13,
                   cursor: 'pointer',
+                  whiteSpace: 'nowrap',
                 }}
               >
                 关闭

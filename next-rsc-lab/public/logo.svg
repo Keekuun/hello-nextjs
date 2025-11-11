@@ -1,0 +1,37 @@
+<svg width="160" height="160" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="160" height="160" rx="36" fill="url(#bg)" />
+  <g filter="url(#panelGlow)">
+    <rect x="36" y="36" width="88" height="88" rx="20" fill="url(#panel)" />
+  </g>
+  <path
+    d="M60 108V56C60 49.3726 65.3726 44 72 44C75.6421 44 79.0953 45.6964 81.274 48.588L102 76.4V56C102 49.3726 107.373 44 114 44H118"
+    stroke="#f8fafc"
+    stroke-width="12"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+  <path
+    d="M48 112H92C96.4183 112 100 108.418 100 104V90"
+    stroke="#38bdf8"
+    stroke-width="12"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+  <circle cx="54" cy="52" r="10" fill="#38bdf8" />
+  <circle cx="108" cy="112" r="9" fill="#f8fafc" fill-opacity="0.35" />
+  <defs>
+    <linearGradient id="bg" x1="20" y1="22" x2="140" y2="140" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0f172a" />
+      <stop offset="1" stop-color="#0b1120" />
+    </linearGradient>
+    <linearGradient id="panel" x1="36" y1="36" x2="124" y2="124" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1d4ed8" />
+      <stop offset="1" stop-color="#0ea5e9" />
+    </linearGradient>
+    <filter id="panelGlow" x="18" y="18" width="124" height="124" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feFlood flood-opacity="0" result="BackgroundImageFix" />
+      <feGaussianBlur in="SourceGraphic" stdDeviation="12" />
+    </filter>
+  </defs>
+</svg>
+
