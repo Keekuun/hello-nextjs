@@ -57,7 +57,7 @@ export default async function CodePreview({
   }
 
   const lineCount = display.split('\n').length
-  const shouldClamp = lineCount > 24
+  const shouldClamp = lineCount > 20
 
   return (
     <article className="flex flex-col overflow-hidden rounded-2xl border border-slate-300/25 bg-white shadow-[0_18px_40px_rgba(15,23,42,0.08)]">
@@ -93,7 +93,13 @@ export default async function CodePreview({
           显示 {lineCount} 行 ·{' '}
           {shouldClamp ? '内容已折叠，可放大查看完整代码' : '当前已展示全部代码'}
         </span>
-        <CodePreviewModalTrigger code={source} language={language} title={title} file={file} />
+        <CodePreviewModalTrigger
+          code={source}
+          language={language}
+          title={title}
+          file={file}
+          id={`${file}-${title}`}
+        />
       </footer>
     </article>
   )

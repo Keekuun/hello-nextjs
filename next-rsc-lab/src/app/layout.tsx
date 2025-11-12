@@ -7,6 +7,8 @@ import ServiceWorkerRegister from '../components/layout/ServiceWorkerRegister'
 import VersionNotifier from '../components/layout/VersionNotifier'
 import PwaInstallPrompt from '../components/layout/PwaInstallPrompt'
 import BackToTop from '../components/layout/BackToTop'
+import { CodePreviewProvider } from '../components/code/CodePreviewContext'
+import CodePreviewModal from '../components/code/CodePreviewModal'
 import { BUILD_VERSION } from '@/lib/version'
 import './globals.css'
 
@@ -45,16 +47,17 @@ export default function RootLayout({
         <a href="#main-content" className="skip-link">
           跳到主要内容
         </a>
-        <div className="app-shell">
-          {!isDevelopment && <ServiceWorkerRegister />}
-          <RouteProgress />
-          {!isDevelopment && <VersionNotifier />}
-          {!isDevelopment && <PwaInstallPrompt />}
-          <BackToTop />
-          <SiteHeader />
-          <main id="main-content" className="app-main">
-            <RouteTransition>{children}</RouteTransition>
-          </main>
+        <CodePreviewProvider>
+          <div className="app-shell">
+            {!isDevelopment && <ServiceWorkerRegister />}
+            <RouteProgress />
+            {!isDevelopment && <VersionNotifier />}
+            {!isDevelopment && <PwaInstallPrompt />}
+            <BackToTop />
+            <SiteHeader />
+            <main id="main-content" className="app-main">
+              <RouteTransition>{children}</RouteTransition>
+            </main>
           <footer className="site-footer flex justify-center items-center text-center">
             <div className="flex justify-center">
               <span>Next.js RSC Lab © {new Date().getFullYear()}</span>
@@ -71,7 +74,9 @@ export default function RootLayout({
             </div>
             <p>跟随导航逐步探索 RSC、Server Actions、Streaming 与 Next.js 底层机制。</p>
           </footer>
-        </div>
+          </div>
+          <CodePreviewModal />
+        </CodePreviewProvider>
       </body>
     </html>
   )
