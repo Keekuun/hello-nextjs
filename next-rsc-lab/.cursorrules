@@ -1,0 +1,151 @@
+
+  You are an expert in TypeScript, Node.js, Next.js App Router, React, Shadcn UI, Radix UI and Tailwind.
+  
+  Code Style and Structure
+  - Write concise, technical TypeScript code with accurate examples.
+  - Use functional and declarative programming patterns; avoid classes.
+  - Prefer iteration and modularization over code duplication.
+  - Use descriptive variable names with auxiliary verbs (e.g., isLoading, hasError).
+  - Structure files: exported component, subcomponents, helpers, static content, types.
+  
+  Naming Conventions
+  - Use lowercase with dashes for directories (e.g., components/auth-wizard).
+  - Favor named exports for components.
+  
+  TypeScript Usage
+  - Use TypeScript for all code; prefer interfaces over types.
+  - Avoid enums; use maps instead.
+  - Use functional components with TypeScript interfaces.
+  
+  Syntax and Formatting
+  - Use the "function" keyword for pure functions.
+  - Avoid unnecessary curly braces in conditionals; use concise syntax for simple statements.
+  - Use declarative JSX.
+  
+  UI and Styling
+  - Use Shadcn UI, Radix, and Tailwind for components and styling.
+  - Implement responsive design with Tailwind CSS; use a mobile-first approach.
+  
+  Performance Optimization
+  - Minimize 'use client', 'useEffect', and 'setState'; favor React Server Components (RSC).
+  - Wrap client components in Suspense with fallback.
+  - Use dynamic loading for non-critical components.
+  - Optimize images: use WebP format, include size data, implement lazy loading.
+  
+  Key Conventions
+  - Use 'nuqs' for URL search parameter state management.
+  - Optimize Web Vitals (LCP, CLS, FID).
+  - Limit 'use client':
+    - Favor server components and Next.js SSR.
+    - Use only for Web API access in small components.
+    - Avoid for data fetching or state management.
+
+
+  DRY principle
+  
+  ---
+
+  ### **1. Functions (Logic Reuse)**
+  **Prompt:**
+  *"When you notice the same logic (e.g., data formatting, validation) repeated across multiple places, extract it into a reusable function. This ensures single-point maintenance and clearer intent."*
+
+  **Example:**
+  ```typescript
+  // ❌ Repeated logic
+  console.log(`${user1.name} is ${user1.age} years old.`);
+  console.log(`${user2.name} is ${user2.age} years old.`);
+
+  // ✅ DRY with function
+  const formatUserInfo = (user: User) => `${user.name} is ${user.age} years old.`;
+  console.log(formatUserInfo(user1));
+  console.log(formatUserInfo(user2));
+  ```
+
+  ---
+
+  ### **2. React Components (UI Reuse)**
+  **Prompt:**
+  *"For recurring UI elements (buttons, cards, modals), create reusable React components. Use props to customize behavior and appearance while keeping styles consistent."*
+
+  **Example:**
+  ```tsx
+  // ❌ Duplicate UI
+  <button style={styles} onClick={handleClick}>Save</button>
+  <button style={styles} onClick={handleClick}>Submit</button>
+
+  // ✅ DRY with component
+  <Button label="Save" onClick={handleClick} />
+  <Button label="Submit" onClick={handleClick} />
+  ```
+
+  ---
+
+  ### **3. Custom Hooks (State Logic Reuse)**
+  **Prompt:**
+  *"Abstract stateful logic (data fetching, form handling) into custom hooks. This promotes reuse across components without duplicating useEffect/useState blocks."*
+
+  **Example:**
+  ```tsx
+  const useFetch = (url: string) => {
+    const [data, setData] = useState(null);
+    useEffect(() => { fetch(url).then(res => res.json()).then(setData); }, [url]);
+    return data;
+  };
+
+  // Reuse in components
+  const data = useFetch('/api/users');
+  ```
+
+  ---
+
+  ### **4. Higher-Order Components (HOCs)**
+  **Prompt:**
+  *"Use HOCs to enhance multiple components with shared behaviors (logging, auth checks). Wrap components to avoid repeating enhancement logic."*
+
+  **Example:**
+  ```tsx
+  const withLogger = (Component: React.FC) => (props) => {
+    console.log(`Rendered: ${Component.name}`);
+    return <Component {...props} />;
+  };
+
+  const EnhancedButton = withLogger(Button);
+  ```
+
+  ---
+
+  ### **5. Composition (Layout Reuse)**
+  **Prompt:**
+  *"Leverage React’s children prop or slot patterns to reuse layouts (e.g., Cards, Grids) while allowing dynamic content injection."*
+
+  **Example:**
+  ```tsx
+  <Card title="Profile">
+    <p>Name: Alice</p>
+  </Card>
+  ```
+
+  ---
+
+  ### **When to Avoid DRY**
+  **Prompt:**
+  *"Avoid premature abstraction if:
+  1. Code is used only once.
+  2. Future divergence is likely (e.g., similar-looking buttons with different behaviors)."*
+
+  ---
+
+  ### **Summary Table**
+  | **Technique**       | **Use Case**                     | **Example**              |
+  |---------------------|----------------------------------|--------------------------|
+  | **Functions**       | Repeating logic                  | `formatUserInfo()`       |
+  | **Components**      | Repeating UI                     | `<Button label="Save" />`|
+  | **Custom Hooks**    | Repeating state logic            | `useFetch()`             |
+  | **HOCs**            | Cross-cutting behaviors          | `withLogger(Button)`     |
+  | **Composition**     | Reusable layouts                 | `<Card>{children}</Card>`|
+
+  **Key Message:**
+  *"DRY reduces redundancy but balance it with clarity. Over-abstraction can harm readability."*
+    
+Follow Next.js docs for Data Fetching, Rendering, and Routing.
+  

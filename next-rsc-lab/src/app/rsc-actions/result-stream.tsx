@@ -7,44 +7,32 @@ export default async function ResultStream() {
   const history = await getLatestHistory()
 
   return (
-    <section
-      style={{
-        border: '1px solid #e2e8f0',
-        borderRadius: 12,
-        padding: 24,
-        background: '#fff',
-      }}
-    >
-      <h2>最近 5 次提交（实时刷新）</h2>
-      <p style={{ color: '#64748b', marginBottom: 16 }}>
-        Server Action 在处理完表单后会调用 <code>revalidatePath('/rsc-actions')</code>
+    <section className="rounded-xl border border-slate-200 bg-white p-6">
+      <h2 className="mb-2 text-xl font-semibold">最近 5 次提交（实时刷新）</h2>
+      <p className="mb-4 text-slate-500">
+        Server Action 在处理完表单后会调用 <code className="rounded bg-slate-100 px-1 py-0.5">revalidatePath('/rsc-actions')</code>
         ，触发本组件重新渲染。每次刷新可观察 Flight 数据包含最新的提交列表。
       </p>
 
       {history.length === 0 ? (
-        <p style={{ color: '#94a3b8' }}>暂无数据，提交表单后这里会出现记录。</p>
+        <p className="text-slate-400">暂无数据，提交表单后这里会出现记录。</p>
       ) : (
-        <ul style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+        <ul className="flex flex-col gap-3">
           {history.map((item) => (
             <li
               key={item.id}
-              style={{
-                border: '1px solid #dbeafe',
-                background: '#eff6ff',
-                borderRadius: 10,
-                padding: 16,
-              }}
+              className="rounded-lg border border-blue-200 bg-blue-50 p-4"
             >
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <strong>{item.topic}</strong>
-                <span style={{ color: '#1d4ed8', fontSize: 12 }}>
+              <div className="flex justify-between">
+                <strong className="text-gray-900">{item.topic}</strong>
+                <span className="text-xs text-blue-700">
                   {new Date(item.submittedAt).toLocaleTimeString()}
                 </span>
               </div>
-              <p style={{ margin: '8px 0 0', color: '#1f2937' }}>
+              <p className="m-0 mt-2 text-gray-800">
                 {item.contentPreview}
               </p>
-              <p style={{ margin: '4px 0 0', fontSize: 12, color: '#64748b' }}>
+              <p className="m-0 mt-1 text-xs text-slate-500">
                 字符数：{item.charCount} ｜ 记录 ID：{item.id.slice(0, 8)}
               </p>
             </li>

@@ -3,38 +3,21 @@ import FlightViewerClient from './flight-viewer-client'
 
 export default function FlightViewerPage() {
   return (
-    <div
-      style={{
-        padding: 24,
-        fontFamily: 'sans-serif',
-        maxWidth: 1200,
-        margin: '0 auto',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 24,
-      }}
-    >
+    <div className="mx-auto flex max-w-[1200px] flex-col gap-6 p-6">
       <header>
-        <h1 style={{ fontSize: 32, marginBottom: 8 }}>Flight 数据可视化工具</h1>
-        <p style={{ color: '#64748b', marginBottom: 24, lineHeight: 1.7 }}>
+        <h1 className="mb-2 text-3xl font-bold sm:text-4xl">Flight 数据可视化工具</h1>
+        <p className="mb-6 leading-relaxed text-slate-500">
           这个工具帮助你实时观察和解析 Next.js 生成的 Flight 数据包。Flight 是 React Server Components
           的核心协议，用于在服务器和客户端之间传输组件树、Props 和客户端模块引用。
         </p>
       </header>
 
-      <section
-        style={{
-          background: '#f8fafc',
-          border: '1px solid #e2e8f0',
-          borderRadius: 12,
-          padding: 24,
-        }}
-      >
-        <h2 style={{ fontSize: 20, marginBottom: 12 }}>使用说明</h2>
-        <ol style={{ paddingLeft: 20, lineHeight: 1.8, color: '#475569' }}>
+      <section className="rounded-xl border border-slate-200 bg-slate-50 p-6">
+        <h2 className="mb-3 text-xl font-semibold">使用说明</h2>
+        <ol className="list-inside list-decimal space-y-2 pl-5 leading-relaxed text-slate-600">
           <li>打开 Chrome DevTools → Network 面板</li>
-          <li>访问任意 RSC 页面（如 <code>/rsc-demo</code>）</li>
-          <li>找到带有 <code>?__rsc</code> 的请求</li>
+          <li>访问任意 RSC 页面（如 <code className="rounded bg-slate-200 px-1 py-0.5">/rsc-demo</code>）</li>
+          <li>找到带有 <code className="rounded bg-slate-200 px-1 py-0.5">?__rsc</code> 的请求</li>
           <li>复制 Response 内容，粘贴到下方输入框</li>
           <li>点击"解析 Flight 数据"查看结构化结果</li>
         </ol>
@@ -42,20 +25,9 @@ export default function FlightViewerPage() {
 
       <FlightViewerClient />
 
-      <section
-        style={{
-          display: 'grid',
-          gap: 18,
-        }}
-      >
-        <h2 style={{ fontSize: 22, margin: 0 }}>关键代码预览</h2>
-        <div
-          style={{
-            display: 'grid',
-            gap: 18,
-            gridTemplateColumns: 'repeat(auto-fit,minmax(320px,1fr))',
-          }}
-        >
+      <section className="grid gap-5">
+        <h2 className="m-0 text-xl font-semibold sm:text-2xl">关键代码预览</h2>
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           <CodePreview
             title="FlightViewerPage"
             file="src/app/rsc-flight-viewer/page.tsx"

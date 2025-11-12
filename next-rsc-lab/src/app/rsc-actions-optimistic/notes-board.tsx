@@ -104,20 +104,10 @@ export default function NotesBoard({ initialNotes }: Props) {
   }
 
   return (
-    <section
-      style={{
-        border: '1px solid #e2e8f0',
-        borderRadius: 12,
-        padding: 24,
-        background: '#fff',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 20,
-      }}
-    >
+    <section className="flex flex-col gap-5 rounded-xl border border-slate-200 bg-white p-6">
       <header>
-        <h2 style={{ fontSize: 20 }}>快速记录灵感</h2>
-        <p style={{ color: '#64748b', marginTop: 8, lineHeight: 1.7 }}>
+        <h2 className="text-xl font-semibold">快速记录灵感</h2>
+        <p className="mt-2 leading-relaxed text-slate-500">
           提交表单后立即看到乐观更新的条目，等待服务器返回后替换为真实数据。
         </p>
       </header>
@@ -125,114 +115,61 @@ export default function NotesBoard({ initialNotes }: Props) {
       <form
         ref={formRef}
         action={handleAction}
-        style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}
+        className="flex items-start gap-3"
       >
         <textarea
           name="content"
           placeholder="写下此刻的灵感...（至少 4 个字符）"
           required
           minLength={4}
-          style={{
-            flex: 1,
-            padding: 12,
-            borderRadius: 10,
-            border: '1px solid #cbd5f5',
-            fontSize: 15,
-            lineHeight: 1.5,
-            resize: 'vertical',
-            minHeight: 80,
-          }}
+          className="min-h-20 flex-1 resize-y rounded-lg border border-blue-200 px-3 py-3 text-[15px] leading-normal"
         />
         <button
           type="submit"
           disabled={isPending}
-          style={{
-            padding: '12px 20px',
-            borderRadius: 999,
-            border: 'none',
-            background: isPending ? '#f59e0b' : '#f97316',
-            color: '#fff',
-            fontWeight: 600,
-            cursor: isPending ? 'not-allowed' : 'pointer',
-            transition: 'background 0.2s ease',
-          }}
+          className={`rounded-full border-0 px-5 py-3 font-semibold text-white transition-colors ${
+            isPending
+              ? 'cursor-not-allowed bg-amber-500'
+              : 'cursor-pointer bg-orange-500 hover:bg-orange-600'
+          }`}
         >
           {isPending ? '提交中...' : '添加笔记'}
         </button>
       </form>
 
       {errorMessage && (
-        <div
-          style={{
-            padding: 12,
-            borderRadius: 8,
-            background: '#fee2e2',
-            border: '1px solid #fecaca',
-            color: '#b91c1c',
-            fontSize: 14,
-          }}
-        >
+        <div className="rounded-lg border border-red-300 bg-red-100 px-3 py-3 text-sm text-red-700">
           {errorMessage}
         </div>
       )}
 
-      <ul
-        style={{
-          margin: 0,
-          padding: 0,
-          listStyle: 'none',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 12,
-        }}
-      >
+      <ul className="m-0 flex list-none flex-col gap-3 p-0">
         {notes.map((note) => (
           <li
             key={note.id}
-            style={{
-              padding: 16,
-              borderRadius: 10,
-              border: '1px solid #e2e8f0',
-              background: note.optimistic ? '#fef3c7' : '#f8fafc',
-              boxShadow: note.optimistic
-                ? 'inset 0 0 0 1px rgba(251, 191, 36, 0.5)'
-                : 'none',
-              transition: 'background 0.3s ease',
-            }}
+            className={`rounded-lg border border-slate-200 p-4 transition-colors ${
+              note.optimistic
+                ? 'bg-amber-50 shadow-[inset_0_0_0_1px_rgba(251,191,36,0.5)]'
+                : 'bg-slate-50'
+            }`}
           >
-            <p style={{ margin: 0, fontSize: 15, lineHeight: 1.6 }}>
+            <p className="m-0 text-[15px] leading-relaxed">
               {note.content}
             </p>
-            <div
-              style={{
-                marginTop: 10,
-                fontSize: 12,
-                color: '#64748b',
-                display: 'flex',
-                gap: 12,
-              }}
-            >
+            <div className="mt-2.5 flex gap-3 text-xs text-slate-500">
               <span>
                 {formatTimestamp(note.createdAt)}
               </span>
               {note.optimistic ? (
-                <span style={{ color: '#d97706', fontWeight: 600 }}>等待服务器确认...</span>
+                <span className="font-semibold text-amber-700">等待服务器确认...</span>
               ) : (
-                <span style={{ color: '#2563eb' }}>服务器已同步 ✅</span>
+                <span className="text-blue-600">服务器已同步 ✅</span>
               )}
             </div>
           </li>
         ))}
         {notes.length === 0 && (
-          <li
-            style={{
-              padding: 24,
-              textAlign: 'center',
-              borderRadius: 10,
-              background: '#f8fafc',
-              color: '#94a3b8',
-            }}
-          >
+          <li className="rounded-lg bg-slate-50 p-6 text-center text-slate-400">
             还没有任何笔记，写点什么吧～
           </li>
         )}

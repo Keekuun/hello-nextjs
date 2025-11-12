@@ -14,28 +14,13 @@ export default function ClientEdgeMarker() {
   }, [])
 
   return (
-    <div
-      style={{
-        padding: 16,
-        borderRadius: 8,
-        background: '#fef3c7',
-        border: '1px solid #facc15',
-      }}
-    >
-      <p>客户端水合时间：{hydratedAt || '等待中...'}</p>
-      <p style={{ fontSize: 12, color: '#92400e', marginTop: 8 }}>
+    <div className="rounded-lg border border-yellow-400 bg-amber-50 p-4">
+      <p className="m-0">客户端水合时间：{hydratedAt || '等待中...'}</p>
+      <p className="m-0 mt-2 text-xs text-amber-900">
         User Agent：{userAgent || '获取中...'}
       </p>
       <button
-        style={{
-          marginTop: 12,
-          padding: '8px 16px',
-          borderRadius: 6,
-          background: '#f97316',
-          color: '#fff',
-          border: 'none',
-          cursor: 'pointer',
-        }}
+        className="mt-3 rounded-md border-0 bg-orange-500 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-orange-600"
         onClick={() => {
           const clickTime = new Date().toISOString()
           console.log('[Edge Runtime] 客户端交互触发时间:', clickTime)

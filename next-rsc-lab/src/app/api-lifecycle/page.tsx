@@ -22,39 +22,14 @@ export default async function ApiLifecyclePage() {
   const requestCookies = cookieStore.getAll().slice(0, 6)
 
   return (
-    <main
-      style={{
-        padding: 24,
-        fontFamily: 'sans-serif',
-        maxWidth: 1200,
-        margin: '0 auto',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 24,
-      }}
-    >
-      <header
-        style={{
-          background: '#0f172a',
-          color: '#e2e8f0',
-          borderRadius: 18,
-          padding: '32px 28px',
-          boxShadow: '0 22px 60px rgba(15,23,42,0.35)',
-        }}
-      >
-        <h1 style={{ fontSize: 32, marginBottom: 12 }}>Next.js API 生命周期实验</h1>
-        <p style={{ fontSize: 17, lineHeight: 1.8, color: '#bfdbfe' }}>
+    <main className="mx-auto flex max-w-[1200px] flex-col gap-6 p-6">
+      <header className="rounded-2xl bg-slate-900 px-7 py-8 text-slate-200 shadow-[0_22px_60px_rgba(15,23,42,0.35)]">
+        <h1 className="mb-3 text-3xl font-bold sm:text-4xl">Next.js API 生命周期实验</h1>
+        <p className="text-lg leading-relaxed text-blue-200">
           通过 Route Handler、ReadableStream、middleware 与 instrumentation，观察 Next.js
           在请求生命周期中的底层行为与可用 API。
         </p>
-        <ul
-          style={{
-            marginTop: 16,
-            color: '#cbd5f5',
-            lineHeight: 1.7,
-            fontSize: 15,
-          }}
-        >
+        <ul className="mt-4 space-y-1 text-[15px] leading-relaxed text-blue-100">
           <li>Route Handler 展示如何访问 headers、cookies，并返回自定义缓存策略。</li>
           <li>ReadableStream 模拟 Flight 协议类似的分片传输。</li>
           <li>Playground 可实时发起请求，观察响应与日志。</li>
@@ -62,73 +37,43 @@ export default async function ApiLifecyclePage() {
         </ul>
       </header>
 
-      <section
-        style={{
-          display: 'grid',
-          gap: 18,
-          gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))',
-        }}
-      >
-        <div
-          style={{
-            border: '1px solid #e2e8f0',
-            borderRadius: 16,
-            padding: 18,
-            background: '#ffffff',
-            overflow: 'auto',
-          }}
-        >
-          <h2 style={{ fontSize: 18, margin: 0 }}>请求头快照</h2>
-          <p style={{ marginTop: 8, color: '#64748b', fontSize: 14 }}>
-            服务器组件可以通过 <code>headers()</code> 读取请求上下文。
+      <section className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="overflow-auto rounded-2xl border border-slate-200 bg-white p-4">
+          <h2 className="m-0 text-lg font-semibold">请求头快照</h2>
+          <p className="mt-2 text-sm text-slate-500">
+            服务器组件可以通过 <code className="rounded bg-slate-100 px-1 py-0.5">headers()</code> 读取请求上下文。
           </p>
-          <ul style={{ margin: 0, paddingLeft: 18, color: '#334155', fontSize: 14 }}>
+          <ul className="m-0 list-inside list-disc space-y-1 pl-5 text-sm text-gray-800">
             {firstHeaders.length === 0 && <li>暂无匹配的 x-next / x-middleware 请求头</li>}
             {firstHeaders.map(([key, value]) => (
               <li key={key}>
-                <code>{key}</code>: {value}
+                <code className="rounded bg-slate-100 px-1 py-0.5">{key}</code>: {value}
               </li>
             ))}
           </ul>
         </div>
 
-        <div
-          style={{
-            border: '1px solid #e2e8f0',
-            borderRadius: 16,
-            padding: 18,
-            background: '#ffffff',
-            overflow: 'auto',
-          }}
-        >
-          <h2 style={{ fontSize: 18, margin: 0 }}>Cookies</h2>
-          <p style={{ marginTop: 8, color: '#64748b', fontSize: 14 }}>
-            使用 <code>cookies()</code> 读取同一请求内的 Cookie。
+        <div className="overflow-auto rounded-2xl border border-slate-200 bg-white p-4">
+          <h2 className="m-0 text-lg font-semibold">Cookies</h2>
+          <p className="mt-2 text-sm text-slate-500">
+            使用 <code className="rounded bg-slate-100 px-1 py-0.5">cookies()</code> 读取同一请求内的 Cookie。
           </p>
-          <ul style={{ margin: 0, paddingLeft: 18, color: '#334155', fontSize: 14 }}>
+          <ul className="m-0 list-inside list-disc space-y-1 pl-5 text-sm text-gray-800">
             {requestCookies.length === 0 && <li>本次请求未携带 Cookie。</li>}
             {requestCookies.map((cookie) => (
               <li key={cookie.name}>
-                <code>{cookie.name}</code>: {cookie.value}
+                <code className="rounded bg-slate-100 px-1 py-0.5">{cookie.name}</code>: {cookie.value}
               </li>
             ))}
           </ul>
         </div>
 
-        <div
-          style={{
-            border: '1px solid #e2e8f0',
-            borderRadius: 16,
-            padding: 18,
-            background: '#ffffff',
-            overflow: 'auto',
-          }}
-        >
-          <h2 style={{ fontSize: 18, margin: 0 }}>Draft Mode</h2>
-          <p style={{ marginTop: 8, color: '#64748b', fontSize: 14 }}>
-            <code>draftMode()</code> 可在请求级别开启临时预览（仅在服务器组件可用）。
+        <div className="overflow-auto rounded-2xl border border-slate-200 bg-white p-4">
+          <h2 className="m-0 text-lg font-semibold">Draft Mode</h2>
+          <p className="mt-2 text-sm text-slate-500">
+            <code className="rounded bg-slate-100 px-1 py-0.5">draftMode()</code> 可在请求级别开启临时预览（仅在服务器组件可用）。
           </p>
-          <p style={{ margin: 0, color: '#334155', fontSize: 15 }}>
+          <p className="m-0 text-[15px] text-gray-800">
             当前状态：{draft.isEnabled ? '✅ 已开启' : '🚫 未开启'}
           </p>
         </div>
@@ -136,20 +81,9 @@ export default async function ApiLifecyclePage() {
 
       <ApiPlayground />
 
-      <section
-        style={{
-          display: 'grid',
-          gap: 18,
-        }}
-      >
-        <h2 style={{ fontSize: 22, margin: 0 }}>关键代码预览</h2>
-        <div
-          style={{
-            display: 'grid',
-            gap: 18,
-            gridTemplateColumns: 'repeat(auto-fit,minmax(320px,1fr))',
-          }}
-        >
+      <section className="grid gap-5">
+        <h2 className="m-0 text-xl font-semibold sm:text-2xl">关键代码预览</h2>
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           <CodePreview
             title="API 生命周期页面"
             file="src/app/api-lifecycle/page.tsx"

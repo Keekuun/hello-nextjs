@@ -10,15 +10,9 @@ export default function ClientButton({ label }: Props) {
   const [count, setCount] = useState(0)
 
   return (
-    <div style={{ marginTop: 16 }}>
+    <div className="mt-4">
       <button
-        style={{
-          padding: '8px 16px',
-          borderRadius: 4,
-          border: '1px solid #333',
-          background: '#fff',
-          cursor: 'pointer',
-        }}
+        className="cursor-pointer rounded border border-gray-800 bg-white px-4 py-2 transition-colors hover:bg-gray-50"
         onClick={() => setCount((c) => c + 1)}
       >
         {label}（点击次数：{count}）

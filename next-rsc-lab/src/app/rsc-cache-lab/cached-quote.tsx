@@ -6,39 +6,20 @@ type Props = {
 
 export default function CachedQuoteSection({ quote }: Props) {
   return (
-    <section
-      style={{
-        border: '1px solid rgba(148,163,184,0.3)',
-        borderRadius: 16,
-        padding: 20,
-        background: '#ffffff',
-        display: 'grid',
-        gap: 12,
-      }}
-    >
-      <header style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-        <h2 style={{ fontSize: 20, margin: 0 }}>使用 `revalidateTag` 的缓存数据</h2>
-        <span style={{ fontSize: 13, color: '#475569' }}>
+    <section className="grid gap-3 rounded-2xl border border-slate-300/30 bg-white p-5">
+      <header className="flex flex-col gap-1">
+        <h2 className="m-0 text-lg font-semibold sm:text-xl">使用 `revalidateTag` 的缓存数据</h2>
+        <span className="text-xs text-slate-600 sm:text-sm">
           每次重新验证前都复用服务器缓存，请观察终端中的 `[CacheLab]` 日志和下方时间戳。
         </span>
       </header>
-      <blockquote
-        style={{
-          margin: 0,
-          padding: '16px 20px',
-          borderLeft: '4px solid rgba(59,130,246,0.35)',
-          background: 'rgba(59,130,246,0.06)',
-          borderRadius: 12,
-          color: '#1e293b',
-          lineHeight: 1.7,
-        }}
-      >
-        <p style={{ margin: 0 }}>
-          “{quote.quote}”
+      <blockquote className="m-0 rounded-xl border-l-4 border-blue-400/35 bg-blue-50/60 p-4 leading-relaxed text-slate-800">
+        <p className="m-0">
+          "{quote.quote}"
         </p>
-        <footer style={{ marginTop: 8, fontSize: 14, color: '#334155' }}>— {quote.author}</footer>
+        <footer className="mt-2 text-sm text-slate-700">— {quote.author}</footer>
       </blockquote>
-      <div style={{ fontSize: 13, color: '#475569' }}>
+      <div className="text-xs text-slate-600 sm:text-sm">
         <div>服务器耗时：{quote.duration} ms</div>
         <div>缓存生成时间：{quote.fetchedAt}</div>
       </div>

@@ -3,6 +3,7 @@ export const preferredRegion = 'auto'
 
 import ClientEdgeMarker from './client-edge-marker'
 import { headers } from 'next/headers'
+import CodePreview from '../../components/code/CodePreview'
 
 async function fetchEdgeTime() {
   const start = Date.now()
@@ -118,35 +119,18 @@ export default async function EdgeRuntimePage() {
   })
 
   return (
-    <main
-      style={{
-        padding: 24,
-        fontFamily: 'sans-serif',
-        maxWidth: 960,
-        margin: '0 auto',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 24,
-      }}
-    >
+    <main className="mx-auto flex max-w-[960px] flex-col gap-6 p-6">
       <header>
-        <h1>RSC Edge Runtime 实验</h1>
-        <p style={{ color: '#475569', lineHeight: 1.7 }}>
+        <h1 className="mb-2 text-2xl font-bold sm:text-3xl">RSC Edge Runtime 实验</h1>
+        <p className="leading-relaxed text-slate-600">
           本页面强制运行在 Edge Runtime，验证 RSC 在 Edge 环境中的执行特点：更快的冷启动、就近
           Region 请求、无 Node.js 特定 API、日志体现在 Edge 函数中。
         </p>
       </header>
 
-      <section
-        style={{
-          border: '1px solid #bae6fd',
-          borderRadius: 12,
-          padding: 24,
-          background: '#f0f9ff',
-        }}
-      >
-        <h2>Edge 请求上下文</h2>
-        <div style={{ display: 'grid', gap: 8, fontSize: 15 }}>
+      <section className="rounded-xl border border-sky-200 bg-sky-50 p-6">
+        <h2 className="mb-3 text-xl font-semibold">Edge 请求上下文</h2>
+        <div className="grid gap-2 text-[15px]">
           <div>
             <strong>国家：</strong>
             {geoFromApi?.country ?? geo.country}
@@ -172,25 +156,18 @@ export default async function EdgeRuntimePage() {
             {geoFromApi?.org ?? '未知'}
           </div>
         </div>
-        <p style={{ marginTop: 12, color: '#0369a1', fontSize: 14 }}>
+        <p className="mt-3 text-sm text-sky-700">
           * 优先使用 ipapi.co 实时地理信息，若外部服务不可用则回退 Edge 请求头。
         </p>
         {geoFromApi && (
-          <p style={{ marginTop: 8, color: '#0f766e', fontSize: 12 }}>
+          <p className="mt-2 text-xs text-teal-700">
             外部 API 耗时：{geoFromApi.duration} ms
           </p>
         )}
       </section>
 
-      <section
-        style={{
-          border: '1px solid #bbf7d0',
-          borderRadius: 12,
-          padding: 24,
-          background: '#f0fdf4',
-        }}
-      >
-        <h2>Edge fetch 实验</h2>
+      <section className="rounded-xl border border-green-200 bg-green-50 p-6">
+        <h2 className="mb-3 text-xl font-semibold">Edge fetch 实验</h2>
         <p>
           时区： <strong>{timeInfo.timezone}</strong>
         </p>
@@ -198,80 +175,40 @@ export default async function EdgeRuntimePage() {
           当前时间： <strong>{timeInfo.datetime}</strong>
         </p>
         <p>请求耗时：{timeInfo.duration} ms</p>
-        <p style={{ color: '#16a34a', fontSize: 14 }}>
+        <p className="text-sm text-green-700">
           * Edge Runtime 使用 Web Fetch API，支持流式响应和更低延迟。
         </p>
       </section>
 
-      <section
-        style={{
-          border: '1px solid #fcd34d',
-          borderRadius: 12,
-          padding: 24,
-          background: '#fffbeb',
-        }}
-      >
-        <h2>客户端水合验证</h2>
+      <section className="rounded-xl border border-yellow-300 bg-yellow-50 p-6">
+        <h2 className="mb-3 text-xl font-semibold">客户端水合验证</h2>
         <ClientEdgeMarker />
       </section>
 
-      <section
-        style={{
-          border: '1px solid #334155',
-          borderRadius: 12,
-          padding: 20,
-          background: '#0f172a',
-          color: '#e2e8f0',
-          display: 'grid',
-          gap: 16,
-        }}
-      >
-        <h2 style={{ fontSize: 20, margin: 0 }}>关键代码片段（简化版）</h2>
-        <pre
-          style={{
-            margin: 0,
-            whiteSpace: 'pre-wrap',
-            wordBreak: 'break-word',
-            fontFamily:
-              '"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace',
-            fontSize: 13,
-            lineHeight: 1.6,
-            background: '#111827',
-            padding: 16,
-            borderRadius: 10,
-          }}
-        >{`export const runtime = 'edge'
-
-async function fetchGeoInfoFromApi() {
-  const response = await fetch('https://ipapi.co/json/', {
-    cache: 'no-store',
-    headers: { Accept: 'application/json' },
-  })
-
-  if (!response.ok) {
-    console.warn('[Edge Runtime] ipapi.co 返回状态:', response.status)
-    return null
-  }
-
-  const data = await response.json()
-  return {
-    country: data.country_name,
-    city: data.city,
-    org: data.org,
-    timezone: data.timezone,
-  }
-}
-
-export default async function EdgeRuntimePage() {
-  const geoFromApi = await fetchGeoInfoFromApi()
-  const timeInfo = await fetchEdgeTime()
-  // ...
-}`}
-        </pre>
-        <p style={{ margin: 0, color: '#cbd5f5', fontSize: 13 }}>
-          完整源码可在 <code>src/app/rsc-edge</code> 目录中查看。出于 Edge Runtime
-          的限制，此处采用静态片段展示关键逻辑。
-        </p>
+      <section className="grid gap-5">
+        <h2 className="m-0 text-xl font-semibold sm:text-2xl">关键代码预览</h2>
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <CodePreview
+            title="EdgeRuntimePage 主页面"
+            file="src/app/rsc-edge/page.tsx"
+            description="配置 Edge Runtime，获取地理信息与时间数据，展示 Edge 环境的执行特点。"
+          />
+          <CodePreview
+            title="fetchGeoInfoFromApi 函数"
+            file="src/app/rsc-edge/page.tsx"
+            description="使用 Web Fetch API 获取实时地理信息，支持超时控制与错误处理。"
+          />
+          <CodePreview
+            title="fetchEdgeTime 函数"
+            file="src/app/rsc-edge/page.tsx"
+            description="通过外部 API 获取 UTC 时间，演示 Edge Runtime 的网络请求能力。"
+          />
+          <CodePreview
+            title="client-edge-marker.tsx"
+            file="src/app/rsc-edge/client-edge-marker.tsx"
+            description="客户端组件验证 Edge 页面的水合过程，记录水合时间与用户代理信息。"
+          />
+        </div>
       </section>
     </main>
   )

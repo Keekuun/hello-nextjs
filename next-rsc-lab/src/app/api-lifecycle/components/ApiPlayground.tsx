@@ -144,128 +144,62 @@ export default function ApiPlayground() {
   )
 
   return (
-    <section
-      style={{
-        border: '1px solid #e2e8f0',
-        borderRadius: 16,
-        padding: 24,
-        background: '#ffffff',
-        display: 'grid',
-        gap: 20,
-      }}
-    >
+    <section className="grid gap-5 rounded-2xl border border-slate-200 bg-white p-6">
       <header>
-        <h2 style={{ fontSize: 20, margin: 0 }}>API Playground</h2>
-        <p style={{ marginTop: 8, color: '#475569', lineHeight: 1.7 }}>
+        <h2 className="m-0 text-xl font-semibold">API Playground</h2>
+        <p className="mt-2 leading-relaxed text-slate-600">
           这里可以实时调用 Route Handler，观察请求上下文与响应流。
         </p>
       </header>
 
-      <div
-        style={{
-          display: 'grid',
-          gap: 16,
-          gridTemplateColumns: 'repeat(auto-fit,minmax(240px,1fr))',
-        }}
-      >
+      <div className="grid gap-4 sm:grid-cols-2">
         {actions.map((action) => (
           <button
             key={action.key}
             onClick={action.handler}
             disabled={isPending}
-            style={{
-              padding: 16,
-              borderRadius: 12,
-              border: '1px solid rgba(148,163,184,0.35)',
-              background: isPending
-                ? 'rgba(148,163,184,0.2)'
-                : 'rgba(37,99,235,0.08)',
-              color: '#0f172a',
-              fontWeight: 600,
-              textAlign: 'left',
-              cursor: isPending ? 'not-allowed' : 'pointer',
-              transition: 'transform 0.16s ease, box-shadow 0.16s ease',
-            }}
+            className={`rounded-xl border border-slate-300/35 bg-blue-50 p-4 text-left font-semibold text-slate-900 transition-all ${
+              isPending
+                ? 'cursor-not-allowed bg-slate-200/20'
+                : 'cursor-pointer hover:-translate-y-0.5 hover:shadow-lg hover:shadow-blue-500/18'
+            }`}
           >
-            <div style={{ fontSize: 15, marginBottom: 6 }}>{action.label}</div>
-            <div style={{ fontSize: 13, color: '#475569', lineHeight: 1.6 }}>
+            <div className="mb-1.5 text-[15px]">{action.label}</div>
+            <div className="text-sm leading-relaxed text-slate-600">
               {action.description}
             </div>
           </button>
         ))}
       </div>
 
-      <section
-        style={{
-          border: '1px solid rgba(148,163,184,0.35)',
-          borderRadius: 12,
-          padding: 16,
-          background: '#f8fafc',
-          display: 'grid',
-          gap: 12,
-        }}
-      >
-        <h3 style={{ margin: 0, fontSize: 16 }}>最近日志</h3>
+      <section className="grid gap-3 rounded-xl border border-slate-300/35 bg-slate-50 p-4">
+        <h3 className="m-0 text-base font-semibold">最近日志</h3>
         {logs.length === 0 ? (
-          <p style={{ margin: 0, color: '#94a3b8' }}>
+          <p className="m-0 text-slate-400">
             尚未触发任何接口，点击上方按钮开始。
           </p>
         ) : (
-          <ul
-            style={{
-              listStyle: 'none',
-              padding: 0,
-              margin: 0,
-              display: 'grid',
-              gap: 12,
-            }}
-          >
+          <ul className="m-0 grid list-none gap-3 p-0">
             {logs.map((log) => (
               <li
                 key={log.id}
-                style={{
-                  border: '1px solid rgba(148,163,184,0.35)',
-                  borderRadius: 10,
-                  padding: 12,
-                  background: '#ffffff',
-                }}
+                className="rounded-lg border border-slate-300/35 bg-white p-3"
               >
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    fontSize: 13,
-                    marginBottom: 8,
-                  }}
-                >
-                  <span style={{ color: '#0369a1' }}>{log.label}</span>
+                <div className="mb-2 flex items-center justify-between text-[13px]">
+                  <span className="text-sky-700">{log.label}</span>
                   <span
-                    style={{
-                      color:
-                        log.status === 'error'
-                          ? '#dc2626'
-                          : Number(log.status) >= 400
-                            ? '#f97316'
-                            : '#059669',
-                      fontWeight: 600,
-                    }}
+                    className={`font-semibold ${
+                      log.status === 'error'
+                        ? 'text-red-600'
+                        : Number(log.status) >= 400
+                          ? 'text-orange-600'
+                          : 'text-emerald-600'
+                    }`}
                   >
                     {log.status}
                   </span>
                 </div>
-                <pre
-                  style={{
-                    margin: 0,
-                    whiteSpace: 'pre-wrap',
-                    wordBreak: 'break-word',
-                    fontFamily:
-                      '"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace',
-                    fontSize: 12,
-                    lineHeight: 1.6,
-                    color: '#1f2937',
-                  }}
-                >
+                <pre className="m-0 break-words whitespace-pre-wrap font-mono text-xs leading-relaxed text-gray-800">
                   {log.body}
                 </pre>
               </li>

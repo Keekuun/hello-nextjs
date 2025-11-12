@@ -54,24 +54,16 @@ export default async function DynamicInsights() {
   const insight = await fetchDynamicInsights()
 
   return (
-    <div
-      style={{
-        padding: 16,
-        borderRadius: 10,
-        background: '#eef2ff',
-        border: '1px solid #c7d2fe',
-        color: '#312e81',
-      }}
-    >
-      <blockquote style={{ fontSize: 18, lineHeight: 1.6, margin: 0 }}>
-        “{insight.quote}”
+    <div className="rounded-lg border border-indigo-300 bg-indigo-50 p-4 text-indigo-900">
+      <blockquote className="m-0 text-lg leading-relaxed">
+        "{insight.quote}"
       </blockquote>
-      <p style={{ marginTop: 12, fontWeight: 600 }}>—— {insight.author}</p>
-      <p style={{ marginTop: 8, fontSize: 13 }}>
+      <p className="m-0 mt-3 font-semibold">—— {insight.author}</p>
+      <p className="m-0 mt-2 text-[13px]">
         拉取耗时：{insight.duration} ms｜时间：{insight.fetchedAt}
       </p>
       {insight.isFallback && (
-        <p style={{ marginTop: 6, fontSize: 12, color: '#b91c1c' }}>
+        <p className="m-0 mt-1.5 text-xs text-red-700">
           提示：实时接口暂不可用，展示兜底引用。
         </p>
       )}

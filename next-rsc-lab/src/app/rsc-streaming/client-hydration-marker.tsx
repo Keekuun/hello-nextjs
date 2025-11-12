@@ -14,27 +14,11 @@ export default function ClientHydrationMarker() {
   }, [])
 
   return (
-    <div
-      style={{
-        padding: 16,
-        borderRadius: 8,
-        border: '1px solid #2563eb',
-        background: '#eff6ff',
-        color: '#1e3a8a',
-      }}
-    >
-      <p>客户端水合状态：{hydratedRef.current ? '已完成' : '等待中'} </p>
-      <p>水合时间：{mountedAt ?? '尚未执行 useEffect'}</p>
+    <div className="rounded-lg border border-blue-600 bg-blue-50 p-4 text-blue-900">
+      <p className="m-0">客户端水合状态：{hydratedRef.current ? '已完成' : '等待中'} </p>
+      <p className="m-0">水合时间：{mountedAt ?? '尚未执行 useEffect'}</p>
       <button
-        style={{
-          marginTop: 12,
-          padding: '8px 16px',
-          borderRadius: 6,
-          background: '#2563eb',
-          border: 'none',
-          color: '#fff',
-          cursor: 'pointer',
-        }}
+        className="mt-3 rounded-md border-0 bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700"
         onClick={() => {
           const clickTime = new Date().toISOString()
           console.log('[Hydration] 客户端交互触发:', clickTime)

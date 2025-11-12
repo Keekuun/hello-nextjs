@@ -3,20 +3,10 @@ import PerformanceMonitorClient from './performance-monitor-client'
 
 export default function PerformancePage() {
   return (
-    <div
-      style={{
-        padding: 24,
-        fontFamily: 'sans-serif',
-        maxWidth: 1200,
-        margin: '0 auto',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 24,
-      }}
-    >
+    <div className="mx-auto flex max-w-[1200px] flex-col gap-6 p-6">
       <header>
-        <h1 style={{ fontSize: 32, marginBottom: 8 }}>RSC 性能监控</h1>
-        <p style={{ color: '#64748b', marginBottom: 24, lineHeight: 1.7 }}>
+        <h1 className="mb-2 text-3xl font-bold sm:text-4xl">RSC 性能监控</h1>
+        <p className="mb-6 leading-relaxed text-slate-500">
           实时监控 React Server Components 的渲染性能指标，包括服务器渲染时间、Flight
           数据传输、客户端水合时间等关键指标。
         </p>
@@ -24,20 +14,9 @@ export default function PerformancePage() {
 
       <PerformanceMonitorClient />
 
-      <section
-        style={{
-          display: 'grid',
-          gap: 18,
-        }}
-      >
-        <h2 style={{ fontSize: 22, margin: 0 }}>关键代码预览</h2>
-        <div
-          style={{
-            display: 'grid',
-            gap: 18,
-            gridTemplateColumns: 'repeat(auto-fit,minmax(320px,1fr))',
-          }}
-        >
+      <section className="grid gap-5">
+        <h2 className="m-0 text-xl font-semibold sm:text-2xl">关键代码预览</h2>
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           <CodePreview
             title="Performance 页面入口"
             file="src/app/rsc-performance/page.tsx"

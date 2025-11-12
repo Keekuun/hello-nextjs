@@ -11,18 +11,10 @@ export default async function SlowServerPanel() {
   console.log('[RSC][Streaming] SlowServerPanel 数据准备完成:', iso)
 
   return (
-    <div
-      style={{
-        padding: 16,
-        borderRadius: 8,
-        background: '#ecfdf5',
-        border: '1px solid #34d399',
-        color: '#047857',
-      }}
-    >
-      <h3 style={{ margin: '0 0 8px' }}>SlowServerPanel</h3>
-      <p>数据准备时间：{iso}</p>
-      <p>服务器阻塞时长：{((end - start) / 1000).toFixed(2)} 秒</p>
+    <div className="rounded-lg border border-emerald-400 bg-emerald-50 p-4 text-emerald-800">
+      <h3 className="m-0 mb-2 text-lg font-semibold">SlowServerPanel</h3>
+      <p className="m-0">数据准备时间：{iso}</p>
+      <p className="m-0">服务器阻塞时长：{((end - start) / 1000).toFixed(2)} 秒</p>
     </div>
   )
 }

@@ -8,10 +8,10 @@ export default async function ServerChild({ parentTitle }: Props) {
   console.log('[RSC] ServerChild render at', time)
 
   return (
-    <section style={{ border: '1px solid #999', padding: 16, marginTop: 16 }}>
-      <h2>ServerChild 组件</h2>
-      <p>接收到的标题：{parentTitle}</p>
-      <p>服务器渲染时间：{time}</p>
+    <section className="mt-4 rounded-lg border border-gray-400 p-4">
+      <h2 className="mb-2 text-lg font-semibold">ServerChild 组件</h2>
+      <p className="mb-1 text-sm">接收到的标题：{parentTitle}</p>
+      <p className="text-sm text-gray-600">服务器渲染时间：{time}</p>
     </section>
   )
 }

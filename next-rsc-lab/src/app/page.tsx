@@ -111,90 +111,29 @@ export default function Home() {
   }, {})
 
   return (
-    <main
-      style={{
-        padding: 'clamp(64px, 12vh, 128px) clamp(18px, 6vw, 40px) clamp(80px, 14vh, 120px)',
-        background: 'linear-gradient(180deg,#f8fafc 0%,#f1f5f9 100%)',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 'clamp(24px, 6vw, 36px)',
-      }}
-    >
-      <section
-        style={{
-          maxWidth: 1080,
-          margin: '0 auto',
-          display: 'grid',
-          gap: 32,
-          gridTemplateColumns: 'minmax(0, 1fr)',
-        }}
-      >
-        <div
-          style={{
-            background: '#0f172a',
-            color: '#e2e8f0',
-            borderRadius: 20,
-            padding: '40px 32px',
-            boxShadow: '0 24px 80px rgba(15, 23, 42, 0.35)',
-          }}
-        >
-          <p
-            style={{
-              fontSize: 14,
-              letterSpacing: '0.12em',
-              textTransform: 'uppercase',
-              marginBottom: 16,
-              color: '#60a5fa',
-              fontWeight: 600,
-            }}
-          >
+    <main className="flex min-h-screen flex-col gap-6 bg-gradient-to-b from-slate-50 to-slate-100 px-4 py-16 sm:gap-8 sm:px-6 sm:py-20 md:px-10 md:py-24 lg:py-32">
+      <section className="mx-auto grid max-w-[1080px] gap-8">
+        <div className="rounded-[20px] bg-slate-900 px-4 py-10 text-slate-200 shadow-[0_24px_80px_rgba(15,23,42,0.35)] sm:px-8">
+          <p className="mb-4 text-sm font-semibold uppercase tracking-wider text-blue-400">
             Next.js RSC 实验室
           </p>
-          <h1
-            style={{
-              fontSize: 'clamp(28px, 6vw, 44px)',
-              lineHeight: 1.2,
-              marginBottom: 20,
-            }}
-          >
+          <h1 className="mb-5 text-[clamp(28px,6vw,44px)] leading-tight">
             拆解 React Server Components 的完整运行链路
           </h1>
-          <p style={{ fontSize: 'clamp(15px, 2.8vw, 18px)', lineHeight: 1.8, color: '#cbd5f5' }}>
+          <p className="mb-0 text-[clamp(15px,2.8vw,18px)] leading-relaxed text-blue-100">
             通过一系列可运行的 Demo，逐步理解 Flight 协议、服务器渲染、水合、Server Actions、
             Edge Runtime 与性能调试。每个实验都附带操作指引与抓包提示，帮助你快速定位关键细节。
           </p>
-          <div
-            style={{
-              marginTop: 28,
-              display: 'flex',
-              flexWrap: 'wrap',
-              gap: 12,
-            }}
-          >
+          <div className="mt-7 flex flex-wrap gap-3">
             <Link
               href="/rsc-demo"
-              style={{
-                padding: '12px 22px',
-                borderRadius: 999,
-                background: '#2563eb',
-                color: '#fff',
-                fontWeight: 600,
-                fontSize: 'clamp(14px, 2.6vw, 15px)',
-              }}
+              className="rounded-full bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition-all hover:bg-blue-700 sm:text-base"
             >
               从基础 Demo 开始
             </Link>
             <Link
               href="/guide"
-              style={{
-                padding: '12px 22px',
-                borderRadius: 999,
-                background: 'rgba(148, 163, 184, 0.15)',
-                color: '#cbd5f5',
-                fontWeight: 600,
-                fontSize: 'clamp(14px, 2.6vw, 15px)',
-                border: '1px solid rgba(148, 163, 184, 0.35)',
-              }}
+              className="rounded-full border border-slate-400/35 bg-slate-400/15 px-5 py-3 text-sm font-semibold text-blue-100 transition-all hover:bg-slate-400/20 sm:text-base"
             >
               阅读完整实验指南
             </Link>
@@ -202,92 +141,30 @@ export default function Home() {
         </div>
       </section>
 
-      <section
-        style={{
-          maxWidth: 1080,
-          margin: '0 auto',
-          display: 'grid',
-          gap: 28,
-        }}
-      >
+      <section className="mx-auto grid max-w-[1080px] gap-7">
         {Object.entries(grouped).map(([category, items]) => (
-          <div key={category} style={{ display: 'grid', gap: 16 }}>
-            <header
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 8,
-              }}
-            >
-              <span
-                style={{
-                  fontSize: 13,
-                  letterSpacing: '0.18em',
-                  textTransform: 'uppercase',
-                  color: '#64748b',
-                  fontWeight: 600,
-                }}
-              >
+          <div key={category} className="grid gap-4">
+            <header className="flex flex-col gap-2">
+              <span className="text-xs font-semibold uppercase tracking-widest text-slate-500">
                 {category}
               </span>
             </header>
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit,minmax(260px,1fr))',
-                gap: 18,
-              }}
-            >
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {items.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
-                  style={{
-                    borderRadius: 16,
-                    padding: 20,
-                    background: '#ffffff',
-                    border: '1px solid rgba(148, 163, 184, 0.25)',
-                    boxShadow: '0 12px 40px rgba(15, 23, 42, 0.06)',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: 12,
-                    color: '#0f172a',
-                    textDecoration: 'none',
-                    transition: 'transform 0.18s ease, box-shadow 0.18s ease',
-                  }}
+                  className="flex flex-col gap-3 rounded-2xl border border-slate-300/25 bg-white p-5 text-slate-900 shadow-[0_12px_40px_rgba(15,23,42,0.06)] transition-all hover:-translate-y-0.5 hover:shadow-[0_16px_50px_rgba(15,23,42,0.1)]"
+                  style={{ textDecoration: 'none' }}
                 >
                   <span
-                    style={{
-                      display: 'inline-flex',
-                      alignSelf: 'flex-start',
-                      padding: '6px 12px',
-                      borderRadius: 999,
-                      background: item.accent,
-                      color: '#fff',
-                      fontSize: 12,
-                      fontWeight: 600,
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.08em',
-                    }}
+                    className="inline-flex self-start rounded-full px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-white"
+                    style={{ backgroundColor: item.accent }}
                   >
                     Explore
                   </span>
-                  <h3
-                    style={{
-                      fontSize: 20,
-                      margin: 0,
-                    }}
-                  >
-                    {item.title}
-                  </h3>
-                  <p
-                    style={{
-                      margin: 0,
-                      color: '#475569',
-                      lineHeight: 1.6,
-                      fontSize: 'clamp(14px, 2.8vw, 15px)',
-                    }}
-                  >
+                  <h3 className="m-0 text-xl font-semibold">{item.title}</h3>
+                  <p className="m-0 text-[clamp(14px,2.8vw,15px)] leading-relaxed text-slate-600">
                     {item.description}
                   </p>
                 </Link>
@@ -297,35 +174,11 @@ export default function Home() {
         ))}
       </section>
 
-      <section
-        style={{
-          maxWidth: 1080,
-          margin: '0 auto',
-          background: '#ffffff',
-          borderRadius: 16,
-          padding: 'clamp(20px, 5vw, 32px)',
-          border: '1px solid rgba(148, 163, 184, 0.25)',
-          boxShadow: '0 18px 50px rgba(15, 23, 42, 0.08)',
-        }}
-      >
-        <h2
-          style={{
-            fontSize: 'clamp(20px, 4vw, 24px)',
-            marginBottom: 16,
-            color: '#0f172a',
-          }}
-        >
+      <section className="mx-auto max-w-[1080px] rounded-2xl border border-slate-300/25 bg-white p-5 shadow-[0_18px_50px_rgba(15,23,42,0.08)] sm:p-8">
+        <h2 className="mb-4 text-[clamp(20px,4vw,24px)] font-semibold text-slate-900">
           操作备忘
         </h2>
-        <ul
-          style={{
-            paddingLeft: 20,
-            margin: 0,
-            color: '#1f2937',
-            lineHeight: 1.75,
-            fontSize: 'clamp(14px, 2.8vw, 15px)',
-          }}
-        >
+        <ul className="m-0 list-inside list-disc space-y-2 pl-5 text-[clamp(14px,2.8vw,15px)] leading-relaxed text-gray-800">
           {guidePoints.map((point) => (
             <li key={point}>{point}</li>
           ))}

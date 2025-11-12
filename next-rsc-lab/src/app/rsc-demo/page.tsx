@@ -25,28 +25,10 @@ export default async function ServerPage() {
   console.log('[RSC] ServerPage fetchTitle result:', data)
 
   return (
-    <div
-      style={{
-        padding: 24,
-        fontFamily: 'sans-serif',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 24,
-      }}
-    >
-      <section
-        style={{
-          background: '#fff',
-          borderRadius: 16,
-          padding: 24,
-          border: '1px solid #e2e8f0',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 16,
-        }}
-      >
-        <h1 style={{ fontSize: 28, margin: 0 }}>RSC Demo 页面</h1>
-        <p style={{ fontSize: 16, lineHeight: 1.7 }}>
+    <div className="flex flex-col gap-6 p-6">
+      <section className="flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-6">
+        <h1 className="m-0 text-2xl font-bold sm:text-3xl">RSC Demo 页面</h1>
+        <p className="text-base leading-relaxed">
           服务器数据：{data.title}
         </p>
 
@@ -55,20 +37,9 @@ export default async function ServerPage() {
         <ClientButton label="点我查看客户端渲染" />
       </section>
 
-      <section
-        style={{
-          display: 'grid',
-          gap: 20,
-        }}
-      >
-        <h2 style={{ fontSize: 22, margin: 0 }}>关键代码预览</h2>
-        <div
-          style={{
-            display: 'grid',
-            gap: 18,
-            gridTemplateColumns: 'repeat(auto-fit,minmax(320px,1fr))',
-          }}
-        >
+      <section className="grid gap-5">
+        <h2 className="m-0 text-xl font-semibold sm:text-2xl">关键代码预览</h2>
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           <CodePreview
             title="服务器页面入口"
             file="src/app/rsc-demo/page.tsx"

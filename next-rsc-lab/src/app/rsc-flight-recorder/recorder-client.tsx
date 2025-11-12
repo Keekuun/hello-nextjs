@@ -102,67 +102,27 @@ export default function FlightRecorderClient() {
   }
 
   return (
-    <section
-      style={{
-        display: 'grid',
-        gridTemplateColumns: 'minmax(0, 480px) minmax(0, 1fr)',
-        gap: 20,
-        alignItems: 'stretch',
-      }}
-    >
-      <aside
-        style={{
-          border: '1px solid #e2e8f0',
-          borderRadius: 12,
-          background: '#fff',
-          padding: 16,
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 16,
-        }}
-      >
-        <div style={{ display: 'flex', gap: 12 }}>
+    <section className="grid grid-cols-[minmax(0,480px)_minmax(0,1fr)] items-stretch gap-5">
+      <aside className="flex flex-col gap-4 rounded-xl border border-slate-200 bg-white p-4">
+        <div className="flex gap-3">
           <button
             onClick={() => setIsRecording((prev) => !prev)}
-            style={{
-              flex: 1,
-              padding: '10px 16px',
-              borderRadius: 8,
-              border: 'none',
-              background: isRecording ? '#22c55e' : '#94a3b8',
-              color: '#fff',
-              fontWeight: 600,
-              cursor: 'pointer',
-            }}
+            className={`flex-1 cursor-pointer rounded-lg border-0 px-4 py-2.5 font-semibold text-white transition-colors ${
+              isRecording ? 'bg-green-500 hover:bg-green-600' : 'bg-slate-400 hover:bg-slate-500'
+            }`}
           >
             {isRecording ? '暂停捕获' : '恢复捕获'}
           </button>
           <button
             onClick={handleClear}
-            style={{
-              padding: '10px 16px',
-              borderRadius: 8,
-              border: '1px solid #e2e8f0',
-              background: '#f8fafc',
-              color: '#475569',
-              cursor: 'pointer',
-            }}
+            className="cursor-pointer rounded-lg border border-slate-200 bg-slate-50 px-4 py-2.5 text-slate-600 transition-colors hover:bg-slate-100"
           >
             清空记录
           </button>
         </div>
 
-        <div
-          style={{
-            border: '1px solid #e2e8f0',
-            borderRadius: 10,
-            background: '#f8fafc',
-            padding: 12,
-            fontSize: 14,
-            color: '#475569',
-          }}
-        >
-          <p style={{ margin: 0 }}>
+        <div className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-3 text-sm text-slate-600">
+          <p className="m-0">
             捕获条数：{chunks.length} 条<br />
             最近一次捕获：
             {chunks.length > 0
@@ -171,98 +131,45 @@ export default function FlightRecorderClient() {
           </p>
         </div>
 
-        <ul
-          style={{
-            listStyle: 'none',
-            margin: 0,
-            padding: 0,
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 12,
-            maxHeight: 520,
-            overflow: 'auto',
-          }}
-        >
+        <ul className="m-0 flex max-h-[520px] list-none flex-col gap-3 overflow-auto p-0">
           {chunks.map((chunk) => (
             <li
               key={chunk.id}
               onClick={() => setSelectedChunk(chunk)}
-              style={{
-                border: '1px solid #e2e8f0',
-                borderRadius: 10,
-                padding: 12,
-                background:
-                  selectedChunk?.id === chunk.id ? '#e0f2fe' : '#fff',
-                cursor: 'pointer',
-              }}
+              className={`cursor-pointer rounded-lg border border-slate-200 p-3 ${
+                selectedChunk?.id === chunk.id ? 'bg-sky-100' : 'bg-white'
+              }`}
             >
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  fontSize: 13,
-                  color: '#0369a1',
-                  marginBottom: 8,
-                }}
-              >
+              <div className="mb-2 flex justify-between text-[13px] text-sky-700">
                 <span>Chunk #{chunk.id}</span>
                 <span>{chunk.size} bytes</span>
               </div>
-              <pre
-                style={{
-                  margin: 0,
-                  fontSize: 12,
-                  whiteSpace: 'pre-wrap',
-                  wordBreak: 'break-word',
-                  color: '#334155',
-                  maxHeight: 90,
-                  overflow: 'hidden',
-                }}
-              >
+              <pre className="m-0 max-h-[90px] overflow-hidden break-words whitespace-pre-wrap text-xs text-gray-800">
                 {chunk.preview}
                 {chunk.size > chunk.preview.length && '...'}
               </pre>
             </li>
           ))}
           {chunks.length === 0 && (
-            <li
-              style={{
-                padding: 24,
-                borderRadius: 10,
-                background: '#f1f5f9',
-                textAlign: 'center',
-                color: '#94a3b8',
-              }}
-            >
+            <li className="rounded-lg bg-slate-100 p-6 text-center text-slate-400">
               暂无 Flight chunk，请前往其他页面触发 RSC 请求后回来查看。
             </li>
           )}
         </ul>
       </aside>
 
-      <section
-        style={{
-          border: '1px solid #e2e8f0',
-          borderRadius: 12,
-          background: '#0f172a',
-          color: '#e2e8f0',
-          padding: 16,
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 16,
-        }}
-      >
-        <header style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <h2 style={{ margin: 0, fontSize: 18 }}>解析结果</h2>
+      <section className="flex flex-col gap-4 rounded-xl border border-slate-200 bg-slate-900 p-4 text-slate-200">
+        <header className="flex justify-between">
+          <h2 className="m-0 text-lg font-semibold">解析结果</h2>
           {selectedChunk && (
-            <span style={{ fontSize: 12, color: '#cbd5f5' }}>
+            <span className="text-xs text-blue-200">
               捕获时间：{new Date(selectedChunk.capturedAt).toLocaleTimeString()}
             </span>
           )}
         </header>
 
         {!selectedChunk && (
-          <p style={{ color: '#94a3b8' }}>
+          <p className="text-slate-400">
             在左侧选择一个 chunk，查看完整的 JSON / 对象结构。
           </p>
         )}
@@ -270,29 +177,11 @@ export default function FlightRecorderClient() {
         {selectedChunk && parsedSelected && (
           <>
             {parsedSelected.ok ? (
-              <pre
-                style={{
-                  margin: 0,
-                  fontSize: 13,
-                  lineHeight: 1.6,
-                  whiteSpace: 'pre-wrap',
-                  wordBreak: 'break-word',
-                  overflow: 'auto',
-                  maxHeight: 520,
-                }}
-              >
+              <pre className="m-0 max-h-[520px] overflow-auto break-words whitespace-pre-wrap text-[13px] leading-relaxed">
                 {JSON.stringify(parsedSelected.data, null, 2)}
               </pre>
             ) : (
-              <div
-                style={{
-                  padding: 16,
-                  borderRadius: 8,
-                  background: '#7f1d1d',
-                  color: '#fee2e2',
-                  fontSize: 14,
-                }}
-              >
+              <div className="rounded-lg bg-red-950 px-4 py-4 text-sm text-red-200">
                 无法解析为 JSON：{parsedSelected.error}
               </div>
             )}

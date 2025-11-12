@@ -47,7 +47,7 @@ export default function FlightViewerClient() {
   function renderFlightNode(node: FlightNode, depth = 0): React.ReactNode {
     if (typeof node === 'string') {
       return (
-        <span style={{ color: '#059669', fontFamily: 'monospace' }}>
+        <span className="font-mono text-emerald-600">
           "{node}"
         </span>
       )
@@ -55,7 +55,7 @@ export default function FlightViewerClient() {
 
     if (!node || typeof node !== 'object') {
       return (
-        <span style={{ color: '#64748b', fontFamily: 'monospace' }}>
+        <span className="font-mono text-slate-500">
           {String(node)}
         </span>
       )
@@ -68,7 +68,7 @@ export default function FlightViewerClient() {
       return (
         <div style={{ marginLeft: indent }}>
           {node.map((item, idx) => (
-            <div key={idx} style={{ marginBottom: 8 }}>
+            <div key={idx} className="mb-2">
               {renderFlightNode(item, depth + 1)}
             </div>
           ))}
@@ -82,86 +82,49 @@ export default function FlightViewerClient() {
 
       return (
         <div
-          style={{
-            marginLeft: indent,
-            marginBottom: 8,
-            padding: '8px 12px',
-            background: depth === 0 ? '#fff' : '#f8fafc',
-            border: '1px solid #e2e8f0',
-            borderRadius: 6,
-          }}
+          style={{ marginLeft: indent }}
+          className={`mb-2 rounded-md border border-slate-200 px-3 py-2 ${
+            depth === 0 ? 'bg-white' : 'bg-slate-50'
+          }`}
         >
-          <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
-            <span
-              style={{
-                color: '#7c3aed',
-                fontWeight: 600,
-                fontFamily: 'monospace',
-                fontSize: 14,
-              }}
-            >
+          <div className="flex items-start gap-3">
+            <span className="font-mono text-sm font-semibold text-purple-600">
               {String(type)}
             </span>
             {key && (
-              <span style={{ color: '#64748b', fontSize: 12 }}>key: {String(key)}</span>
+              <span className="text-xs text-slate-500">key: {String(key)}</span>
             )}
             {typeof props === 'object' && props !== null && Object.keys(props).length > 0 && (
-              <span style={{ color: '#dc2626', fontSize: 12 }}>
+              <span className="text-xs text-red-600">
                 props: {Object.keys(props).length} 个
               </span>
             )}
             {typeof type === 'string' && type.includes('Client') && (
-              <span
-                style={{
-                  background: '#fef3c7',
-                  color: '#92400e',
-                  padding: '2px 8px',
-                  borderRadius: 4,
-                  fontSize: 11,
-                  fontWeight: 600,
-                }}
-              >
+              <span className="rounded bg-amber-100 px-2 py-0.5 text-[11px] font-semibold text-amber-900">
                 客户端组件
               </span>
             )}
           </div>
 
           {typeof props === 'object' && props !== null && (
-            <details style={{ marginTop: 8, marginLeft: 20 }}>
-              <summary
-                style={{
-                  cursor: 'pointer',
-                  color: '#475569',
-                  fontSize: 13,
-                  marginBottom: 4,
-                }}
-              >
+            <details className="ml-5 mt-2">
+              <summary className="mb-1 cursor-pointer text-[13px] text-slate-600">
                 查看 Props
               </summary>
-              <pre
-                style={{
-                  background: '#1e293b',
-                  color: '#e2e8f0',
-                  padding: 12,
-                  borderRadius: 6,
-                  fontSize: 12,
-                  overflow: 'auto',
-                  marginTop: 8,
-                }}
-              >
+              <pre className="mt-2 overflow-auto rounded-md bg-slate-900 p-3 text-xs text-slate-200">
                 {JSON.stringify(props, null, 2)}
               </pre>
             </details>
           )}
 
           {children && (
-            <div style={{ marginTop: 8 }}>
+            <div className="mt-2">
               {Array.isArray(children) ? (
                 children.map((child, idx) => (
                   <div key={idx}>{renderFlightNode(child, depth + 1)}</div>
                 ))
               ) : (
-                <div style={{ marginLeft: 20, color: '#059669' }}>
+                <div className="ml-5 text-emerald-600">
                   {String(children)}
                 </div>
               )}
@@ -174,15 +137,7 @@ export default function FlightViewerClient() {
     // 普通对象
     return (
       <div style={{ marginLeft: indent }}>
-        <pre
-          style={{
-            background: '#f1f5f9',
-            padding: 12,
-            borderRadius: 6,
-            fontSize: 12,
-            overflow: 'auto',
-          }}
-        >
+        <pre className="overflow-auto rounded-md bg-slate-100 p-3 text-xs">
           {JSON.stringify(node, null, 2)}
         </pre>
       </div>
@@ -191,44 +146,18 @@ export default function FlightViewerClient() {
 
   return (
     <div>
-      <section
-        style={{
-          background: '#fff',
-          border: '1px solid #e2e8f0',
-          borderRadius: 12,
-          padding: 24,
-          marginBottom: 24,
-        }}
-      >
-        <h3 style={{ fontSize: 18, marginBottom: 12 }}>输入 Flight 数据</h3>
+      <section className="mb-6 rounded-xl border border-slate-200 bg-white p-6">
+        <h3 className="mb-3 text-lg font-semibold">输入 Flight 数据</h3>
         <textarea
           value={rawInput}
           onChange={(e) => setRawInput(e.target.value)}
           placeholder='粘贴 Flight 数据（从 Network → ?__rsc 请求的 Response 中复制）'
-          style={{
-            width: '100%',
-            minHeight: 200,
-            padding: 12,
-            borderRadius: 8,
-            border: '1px solid #cbd5e1',
-            fontFamily: 'monospace',
-            fontSize: 13,
-            lineHeight: 1.6,
-            resize: 'vertical',
-          }}
+          className="min-h-[200px] w-full resize-y rounded-lg border border-slate-300 px-3 py-3 font-mono text-[13px] leading-relaxed"
         />
-        <div style={{ marginTop: 12, display: 'flex', gap: 12 }}>
+        <div className="mt-3 flex gap-3">
           <button
             onClick={() => parseFlightData(rawInput)}
-            style={{
-              padding: '10px 20px',
-              background: '#0f172a',
-              color: '#fff',
-              border: 'none',
-              borderRadius: 8,
-              cursor: 'pointer',
-              fontWeight: 600,
-            }}
+            className="cursor-pointer rounded-lg border-0 bg-slate-900 px-5 py-2.5 font-semibold text-white transition-colors hover:bg-slate-800"
           >
             解析 Flight 数据
           </button>
@@ -238,45 +167,22 @@ export default function FlightViewerClient() {
               setParsedData(null)
               setError(null)
             }}
-            style={{
-              padding: '10px 20px',
-              background: '#f1f5f9',
-              color: '#475569',
-              border: '1px solid #cbd5e1',
-              borderRadius: 8,
-              cursor: 'pointer',
-            }}
+            className="cursor-pointer rounded-lg border border-slate-300 bg-slate-100 px-5 py-2.5 text-slate-600 transition-colors hover:bg-slate-200"
           >
             清空
           </button>
         </div>
         {error && (
-          <div
-            style={{
-              marginTop: 12,
-              padding: 12,
-              background: '#fee2e2',
-              border: '1px solid #fecaca',
-              borderRadius: 8,
-              color: '#b91c1c',
-            }}
-          >
+          <div className="mt-3 rounded-lg border border-red-300 bg-red-100 px-3 py-3 text-red-700">
             {error}
           </div>
         )}
       </section>
 
       {parsedData && (
-        <section
-          style={{
-            background: '#fff',
-            border: '1px solid #e2e8f0',
-            borderRadius: 12,
-            padding: 24,
-          }}
-        >
-          <h3 style={{ fontSize: 18, marginBottom: 16 }}>解析结果</h3>
-          <div style={{ background: '#f8fafc', padding: 16, borderRadius: 8 }}>
+        <section className="rounded-xl border border-slate-200 bg-white p-6">
+          <h3 className="mb-4 text-lg font-semibold">解析结果</h3>
+          <div className="rounded-lg bg-slate-50 p-4">
             {parsedData.map((node, idx) => (
               <div key={idx}>{renderFlightNode(node)}</div>
             ))}
@@ -284,22 +190,14 @@ export default function FlightViewerClient() {
         </section>
       )}
 
-      <section
-        style={{
-          marginTop: 24,
-          padding: 20,
-          background: '#fef3c7',
-          border: '1px solid #fde68a',
-          borderRadius: 12,
-        }}
-      >
-        <h3 style={{ fontSize: 16, marginBottom: 8 }}>💡 Flight 数据格式说明</h3>
-        <ul style={{ paddingLeft: 20, lineHeight: 1.8, color: '#78350f' }}>
+      <section className="mt-6 rounded-xl border border-amber-200 bg-amber-50 p-5">
+        <h3 className="mb-2 text-base font-semibold">💡 Flight 数据格式说明</h3>
+        <ul className="list-inside list-disc space-y-1 pl-5 leading-relaxed text-amber-900">
           <li>
-            <code>["$", type, key, props, children]</code> 表示一个 React 元素
+            <code className="rounded bg-amber-100 px-1 py-0.5">["$", type, key, props, children]</code> 表示一个 React 元素
           </li>
           <li>
-            <code>type</code> 可以是 HTML 标签（如 <code>"div"</code>）或组件名（如 <code>"ClientButton"</code>）
+            <code className="rounded bg-amber-100 px-1 py-0.5">type</code> 可以是 HTML 标签（如 <code className="rounded bg-amber-100 px-1 py-0.5">"div"</code>）或组件名（如 <code className="rounded bg-amber-100 px-1 py-0.5">"ClientButton"</code>）
           </li>
           <li>
             客户端组件会被标记，并在 Flight 数据中包含模块引用路径

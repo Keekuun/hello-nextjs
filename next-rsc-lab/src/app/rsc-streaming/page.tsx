@@ -9,33 +9,18 @@ export default function StreamingPage() {
   console.log('[RSC][Streaming] 页面入口渲染时间:', renderTime)
 
   return (
-    <main
-      style={{
-        padding: 24,
-        fontFamily: 'sans-serif',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 24,
-      }}
-    >
+    <main className="flex flex-col gap-6 p-6">
       <header>
-        <h1>RSC Streaming Demo</h1>
-        <p style={{ color: '#475569', lineHeight: 1.7 }}>
+        <h1 className="mb-2 text-2xl font-bold sm:text-3xl">RSC Streaming Demo</h1>
+        <p className="leading-relaxed text-slate-600">
           这个页面演示 Suspense + Server Component 的流式输出。先观察 fallback
           提前抵达客户端，再留意真正的数据块补全 DOM。
         </p>
       </header>
 
-      <section
-        style={{
-          border: '1px solid #cbd5f5',
-          borderRadius: 12,
-          padding: 20,
-          background: '#f8fafc',
-        }}
-      >
-        <h2>流式数据区域</h2>
-        <p style={{ marginBottom: 12 }}>
+      <section className="rounded-xl border border-blue-200 bg-slate-50 p-5">
+        <h2 className="mb-3 text-xl font-semibold">流式数据区域</h2>
+        <p className="mb-3">
           fallback 会立即返回，真实内容约 3 秒后抵达，记得在 Network →
           Fetch/XHR 中关注 `?__rsc` 的分段传输。
         </p>
@@ -46,24 +31,13 @@ export default function StreamingPage() {
       </section>
 
       <section>
-        <h2>客户端水合标记</h2>
+        <h2 className="mb-3 text-xl font-semibold">客户端水合标记</h2>
         <ClientHydrationMarker />
       </section>
 
-      <section
-        style={{
-          display: 'grid',
-          gap: 18,
-        }}
-      >
-        <h2 style={{ fontSize: 22, margin: 0 }}>关键代码预览</h2>
-        <div
-          style={{
-            display: 'grid',
-            gap: 18,
-            gridTemplateColumns: 'repeat(auto-fit,minmax(320px,1fr))',
-          }}
-        >
+      <section className="grid gap-5">
+        <h2 className="m-0 text-xl font-semibold sm:text-2xl">关键代码预览</h2>
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           <CodePreview
             title="Streaming 页面入口"
             file="src/app/rsc-streaming/page.tsx"
@@ -91,17 +65,9 @@ function StreamingFallback() {
   console.log('[RSC][Streaming] Suspense fallback 渲染时间:', fallbackTime)
 
   return (
-    <div
-      style={{
-        padding: 16,
-        borderRadius: 8,
-        background: '#fff7ed',
-        border: '1px dashed #fb923c',
-        color: '#c2410c',
-      }}
-    >
+    <div className="rounded-lg border border-dashed border-orange-400 bg-orange-50 p-4 text-orange-800">
       <strong>等待服务器数据...</strong>
-      <p style={{ margin: '8px 0 0' }}>fallback 渲染时间：{fallbackTime}</p>
+      <p className="m-0 mt-2">fallback 渲染时间：{fallbackTime}</p>
     </div>
   )
 }

@@ -13,17 +13,11 @@ export default function SubmitButton({ label }: Props) {
     <button
       type="submit"
       disabled={status.pending}
-      style={{
-        alignSelf: 'flex-start',
-        padding: '10px 20px',
-        borderRadius: 999,
-        border: 'none',
-        background: status.pending ? '#38bdf8' : '#0ea5e9',
-        color: '#fff',
-        fontWeight: 600,
-        cursor: status.pending ? 'not-allowed' : 'pointer',
-        transition: 'background 0.2s ease',
-      }}
+      className={`self-start rounded-full border-0 px-5 py-2.5 font-semibold text-white transition-colors ${
+        status.pending
+          ? 'cursor-not-allowed bg-sky-400'
+          : 'cursor-pointer bg-sky-500 hover:bg-sky-600'
+      }`}
     >
       {status.pending ? '正在提交...' : label}
     </button>

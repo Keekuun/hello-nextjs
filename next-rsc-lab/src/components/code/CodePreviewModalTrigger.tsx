@@ -18,21 +18,7 @@ export default function CodePreviewModalTrigger({ code, language, title, file }:
       <button
         type="button"
         onClick={() => setOpen(true)}
-        style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: 6,
-          padding: '10px 16px',
-          borderRadius: 999,
-          border: '1px solid rgba(148,163,184,0.4)',
-          background: 'rgba(37,99,235,0.12)',
-          color: '#1d4ed8',
-          fontWeight: 600,
-          fontSize: 13,
-          cursor: 'pointer',
-          transition: 'background 0.18s ease, transform 0.18s ease',
-          whiteSpace: 'nowrap',
-        }}
+        className="inline-flex cursor-pointer items-center gap-1.5 whitespace-nowrap rounded-full border border-slate-300/40 bg-blue-50 px-4 py-2.5 text-[13px] font-semibold text-blue-700 transition-all hover:bg-blue-100 hover:shadow-sm"
       >
         查看代码
       </button>
@@ -41,71 +27,27 @@ export default function CodePreviewModalTrigger({ code, language, title, file }:
         <div
           role="dialog"
           aria-modal="true"
-          style={{
-            position: 'fixed',
-            inset: 0,
-            background: 'rgba(15,23,42,0.55)',
-            zIndex: 1000,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: '40px 24px',
-          }}
+          className="fixed inset-0 z-[1000] flex items-center justify-center bg-slate-900/55 p-6 sm:p-10"
           onClick={() => setOpen(false)}
         >
           <div
-            style={{
-              maxWidth: 'min(1080px, 100%)',
-              width: '100%',
-              background: '#0b1120',
-              borderRadius: 18,
-              border: '1px solid rgba(148,163,184,0.35)',
-              boxShadow: '0 32px 80px rgba(15,23,42,0.35)',
-              display: 'flex',
-              flexDirection: 'column',
-              overflow: 'hidden',
-            }}
+            className="flex max-h-[90vh] w-full max-w-[1080px] flex-col overflow-hidden rounded-2xl border border-slate-300/35 bg-slate-950 shadow-[0_32px_80px_rgba(15,23,42,0.35)]"
             onClick={(event) => event.stopPropagation()}
           >
-            <header
-              style={{
-                padding: '18px 24px',
-                borderBottom: '1px solid rgba(148,163,184,0.25)',
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                gap: 12,
-                color: '#e2e8f0',
-              }}
-            >
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-                <span style={{ fontSize: 12, letterSpacing: '0.12em', color: '#94a3b8' }}>{file}</span>
-                <h3 style={{ margin: 0, fontSize: 20 }}>{title}</h3>
+            <header className="flex items-center justify-between gap-3 border-b border-slate-300/25 px-6 py-4.5 text-slate-200">
+              <div className="flex flex-col gap-1">
+                <span className="text-xs tracking-wider text-slate-400">{file}</span>
+                <h3 className="m-0 text-xl font-semibold">{title}</h3>
               </div>
               <button
                 type="button"
                 onClick={() => setOpen(false)}
-                style={{
-                  padding: '8px 12px',
-                  background: 'rgba(148,163,184,0.2)',
-                  color: '#cbd5f5',
-                  borderRadius: 999,
-                  border: '1px solid rgba(148,163,184,0.35)',
-                  fontSize: 13,
-                  cursor: 'pointer',
-                  whiteSpace: 'nowrap',
-                }}
+                className="cursor-pointer whitespace-nowrap rounded-full border border-slate-300/35 bg-slate-800/20 px-3 py-2 text-[13px] text-blue-100 transition-colors hover:bg-slate-800/40"
               >
                 关闭
               </button>
             </header>
-            <div
-              style={{
-                padding: 0,
-                maxHeight: '70vh',
-                overflow: 'auto',
-              }}
-            >
+            <div className="max-h-[70vh] overflow-auto p-0">
               <CodeHighlight language={language} code={code} />
             </div>
           </div>
