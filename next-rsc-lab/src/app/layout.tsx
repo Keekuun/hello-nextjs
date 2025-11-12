@@ -6,6 +6,7 @@ import RouteProgress from '../components/layout/RouteProgress'
 import ServiceWorkerRegister from '../components/layout/ServiceWorkerRegister'
 import VersionNotifier from '../components/layout/VersionNotifier'
 import PwaInstallPrompt from '../components/layout/PwaInstallPrompt'
+import BackToTop from '../components/layout/BackToTop'
 import { BUILD_VERSION } from '@/lib/version'
 import './globals.css'
 
@@ -49,6 +50,7 @@ export default function RootLayout({
           <RouteProgress />
           {!isDevelopment && <VersionNotifier />}
           {!isDevelopment && <PwaInstallPrompt />}
+          <BackToTop />
           <SiteHeader />
           <main id="main-content" className="app-main">
             <RouteTransition>{children}</RouteTransition>

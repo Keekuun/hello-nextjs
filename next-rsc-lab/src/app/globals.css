@@ -632,3 +632,52 @@ body {
   }
 }
 
+/* 返回顶部按钮 */
+.back-to-top-btn {
+  position: fixed;
+  bottom: 24px;
+  right: clamp(16px, 5vw, 32px);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.3);
+  cursor: pointer;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.back-to-top-btn:hover {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  box-shadow: 0 12px 32px rgba(37, 99, 235, 0.4);
+  transform: translateY(-2px);
+}
+
+.back-to-top-btn:active {
+  transform: translateY(0);
+}
+
+.back-to-top-icon {
+  width: 20px;
+  height: 20px;
+}
+
+@media (max-width: 640px) {
+  .back-to-top-btn {
+    width: 44px;
+    height: 44px;
+    bottom: 20px;
+    right: clamp(16px, 6vw, 24px);
+  }
+
+  .back-to-top-icon {
+    width: 18px;
+    height: 18px;
+  }
+}
+
