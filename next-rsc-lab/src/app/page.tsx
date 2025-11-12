@@ -86,6 +86,27 @@ const demoCards: DemoCard[] = [
     accent: '#dc2626',
     category: '性能调试',
   },
+  {
+    title: 'React 19 use() Hook',
+    description: '探索 use() Hook 直接使用 Promise 和 Context，无需 useEffect 的新方式。',
+    href: '/rsc-use-hook',
+    accent: '#8b5cf6',
+    category: '核心概念',
+  },
+  {
+    title: '并发特性 (Transitions)',
+    description: 'useTransition 和 useDeferredValue 实现非阻塞更新，保持 UI 响应性。',
+    href: '/rsc-transitions',
+    accent: '#ec4899',
+    category: '性能调试',
+  },
+  {
+    title: 'Metadata API',
+    description: '动态生成 SEO 元数据、Open Graph 和 Twitter Cards，优化搜索引擎和社交媒体分享。',
+    href: '/rsc-metadata',
+    accent: '#14b8a6',
+    category: 'API & 底层',
+  },
 ]
 
 const guidePoints = [
@@ -101,6 +122,9 @@ const guidePoints = [
   '在客户端使用 useOptimistic 实现无闪烁的乐观更新流',
   '使用 Route Handler、middleware、instrumentation 观察 Next.js API 生命周期',
   '实践 revalidateTag / unstable_cache，构建 RSC 缓存刷新与实时数据协同策略',
+  '探索 React 19 use() Hook，直接在组件中使用 Promise 和 Context',
+  '使用 useTransition 和 useDeferredValue 实现非阻塞更新，保持 UI 响应性',
+  '动态生成 SEO 元数据、Open Graph 和 Twitter Cards，优化搜索引擎和社交媒体分享',
 ]
 
 export default function Home() {

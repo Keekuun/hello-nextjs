@@ -24,6 +24,7 @@ const navGroups: NavGroup[] = [
       { href: '/rsc-actions', label: 'Server Actions' },
       { href: '/rsc-actions-optimistic', label: 'Optimistic Actions' },
       { href: '/rsc-ppr', label: 'Partial Prerendering' },
+      { href: '/rsc-use-hook', label: 'React 19 use() Hook' },
     ],
   },
   {
@@ -37,11 +38,17 @@ const navGroups: NavGroup[] = [
   },
   {
     label: '性能调试',
-    items: [{ href: '/rsc-performance', label: '性能监控' }],
+    items: [
+      { href: '/rsc-performance', label: '性能监控' },
+      { href: '/rsc-transitions', label: '并发特性 (Transitions)' },
+    ],
   },
   {
     label: 'API & 底层',
-    items: [{ href: '/api-lifecycle', label: 'API 生命周期实验' }],
+    items: [
+      { href: '/api-lifecycle', label: 'API 生命周期实验' },
+      { href: '/rsc-metadata', label: 'Metadata API' },
+    ],
   },
 ]
 
