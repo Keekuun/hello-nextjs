@@ -48,6 +48,15 @@ src/app/rsc-ppr/
 ├── page.tsx               # PprDemoPage：Partial Prerendering 实验入口
 ├── static-summary.tsx     # 采用强缓存的服务器组件，展示静态内容
 └── dynamic-insights.tsx   # 使用 `cache: 'no-store'` 的动态组件，结合 Suspense 流式输出
+src/app/rsc-use-hook/
+├── page.tsx               # UseHookPage：React 19 use() Hook 介绍页
+└── use-hook-demo.tsx      # 客户端组件，演示 use() + Suspense 的协作
+src/app/rsc-transitions/
+├── page.tsx               # TransitionsPage：并发特性概览
+└── transitions-demo.tsx   # 客户端组件，对比 useTransition/useDeferredValue
+src/app/rsc-metadata/
+├── page.tsx               # MetadataPage：动态 Metadata API 示例
+└── metadata-demo.tsx      # 客户端组件，读取当前 head 元数据
 src/app/rsc-actions-optimistic/
 ├── page.tsx               # OptimisticActionsPage：useOptimistic + Server Actions 实验入口
 ├── actions.ts             # createNote/listNotes，模拟后端校验与延迟
@@ -70,6 +79,22 @@ src/app/api-lifecycle/
 └── api/
     ├── echo/route.ts      # Route Handler，回显请求上下文
     └── stream/route.ts    # Route Handler，ReadableStream 分块输出
+src/app/parallel-lab/
+├── layout.tsx             # 并行路由布局，组合多个 @segment
+├── page.tsx               # ParallelLabPage：Parallel Routes 概览
+├── @metrics/page.tsx      # 指标面板（cache() 缓存示例）
+├── @metrics/loading.tsx   # 指标面板 skeleton
+├── @activity/page.tsx     # 实时活动流（noStore 示例）
+├── @activity/loading.tsx  # 活动流 skeleton
+├── @insights/page.tsx     # 洞察分析（模拟延迟）
+└── @insights/loading.tsx  # 洞察分析 skeleton
+src/app/intercept-lab/
+├── layout.tsx             # 定义 modal 并行槽位
+├── page.tsx               # InterceptLabPage：拦截路由实验列表
+├── data.ts                # 实验数据集
+├── items/[id]/page.tsx    # 独立详情页面
+├── items/[id]/not-found.tsx # 详情 404 处理
+└── @modal/(.)items/[id]/page.tsx # Intercepting Routes 模态视图
 middleware.ts               # Edge Middleware，拦截 /api-lifecycle 下的请求
 instrumentation.ts          # register 钩子，记录启动时机
 ```
@@ -94,6 +119,12 @@ instrumentation.ts          # register 钩子，记录启动时机
 - `PprDemoPage`：展示 Partial Prerendering，静态内容在构建期生成，动态内容请求时流式补全。
 - `static-summary.tsx`：使用 `cache: 'force-cache'` 获取数据，展示可复用的静态部分。
 - `dynamic-insights.tsx`：模拟慢接口并通过 `cache: 'no-store'` 返回实时数据，配合 Suspense fallback。
+- `UseHookPage`：概览 React 19 use() Hook 的使用场景与注意事项。
+- `use-hook-demo.tsx`：通过 Promise 缓存演示 use() 与 Suspense 的协作机制。
+- `TransitionsPage`：介绍 useTransition/useDeferredValue 并发渲染特性。
+- `transitions-demo.tsx`：对比并发特性前后的输入体验差异。
+- `MetadataPage`：演示 generateMetadata 动态生成 SEO 元数据。
+- `metadata-demo.tsx`：读取 DOM 中的 meta 标签，验证元数据输出。
 - `OptimisticActionsPage`：示范如何结合 useOptimistic 与 Server Actions 实现乐观更新。
 - `notes-board.tsx`：客户端组件，使用 useOptimistic/useTransition 管理临时笔记列表。
 - `FlightRecorderPage`：自动捕获浏览器内的 Flight chunk，方便对比调试。
@@ -104,6 +135,10 @@ instrumentation.ts          # register 钩子，记录启动时机
 - `stream/route.ts`：创建 ReadableStream，模拟 Flight 分块输出。
 - `middleware.ts`：Edge 中间件，记录请求并注入自定义 Header。
 - `instrumentation.ts`：演示 register 钩子在启动时触发。
+- `ParallelLabPage`：Parallel Routes 实验入口与代码导览。
+- `@metrics/@activity/@insights`：三个并行区域分别展示缓存、noStore、延迟场景。
+- `InterceptLabPage`：拦截路由实验入口，展示模态导航。
+- `@modal/(.)items/[id]`：拦截路由的模态视图，实现上下文内预览。
 
 ## 观察步骤
 
@@ -162,39 +197,51 @@ instrumentation.ts          # register 钩子，记录启动时机
    - 指标会根据性能表现用颜色编码（绿色=优秀，黄色=一般，红色=需优化）  
    - 结合 Chrome DevTools Performance 面板录制，可以更详细地分析渲染时间线
 
-10. **Edge Runtime 对比实验**  
+10. **Parallel Routes 并行区域**  
+    - 访问 `/parallel-lab`，观察页面底部三个并行区域的加载顺序  
+    - `@metrics` 使用 `cache()` 包裹数据获取，刷新后仍复用服务器缓存  
+    - `@activity` 与 `@insights` 调用 `noStore()` 并模拟不同延迟，体验局部 Suspense fallback  
+    - 打开 Network → `rsc` 请求，可看到并行区域的 payload 分别返回且互不阻塞
+
+11. **Intercepting Routes 模态导航**  
+    - 打开 `/intercept-lab`，点击任意实验条目会以模态形式展示详情  
+    - 关闭模态后保持在列表页，滚动位置不会丢失  
+    - 在模态中选择“查看完整页面”或刷新页面，会进入 `/intercept-lab/items/[id]` 的独立详情  
+    - 体验 SPA 导航与 SSR 直达页面之间的无缝切换
+
+12. **Edge Runtime 对比实验**  
     - 访问 `/rsc-edge`，该页面强制运行在 Edge Runtime  
     - 打开终端日志，留意 `[Edge Runtime]` 输出，验证执行上下文  
     - 页面优先调用 `https://ipapi.co/json/` 获取地理信息（城市、国家、时区、运营商、IP），若失败则回退 Edge 请求头  
     - 观察 `fetch` 调用耗时，体会 Edge Runtime 的低延迟网络能力  
     - 客户端组件 `ClientEdgeMarker` 会记录水合时间，并在 Console 打印日志
 
-11. **Partial Prerendering（PPR）**  
+13. **Partial Prerendering（PPR）**  
     - 访问 `/rsc-ppr`，该页面设置 `revalidate = 120`，静态部分在构建期生成  
     - `StaticSummary` 使用 `cache: 'force-cache'`，命中缓存时服务器日志会提示  
     - `DynamicInsights` 通过 `cache: 'no-store'` 在请求时拉取实时引用，模拟 2.5 秒延迟  
     - Suspense fallback 立即返回，真实数据流式补全，观察终端 `[PPR]` 日志和 Network 中的分段响应  
     - 多次刷新对比静态段是否复用缓存、动态段是否重新生成
 
-12. **Server Actions 乐观更新**  
+14. **Server Actions 乐观更新**  
     - 打开 `/rsc-actions-optimistic`，输入 4 个字符以上的内容并快速提交多次  
     - 注意新条目会立即出现并标记为“等待服务器确认”，稍后替换为真实记录  
     - 试着提交过短的内容，观察 useOptimistic 如何回滚临时条目并显示错误信息  
     - 查看终端中 `[Server Action]` 日志，验证 revalidatePath 是否被触发
 
-13. **Flight Recorder 自动捕获**  
+15. **Flight Recorder 自动捕获**  
     - 打开 `/rsc-flight-recorder`，保持页面运行  
     - 在新标签页访问其他 RSC 页面并触发操作（如刷新或提交表单）  
     - 返回 Recorder 页即可看到 chunk 实时追加，可点选查看 JSON 结构  
     - 支持暂停捕获、清空记录，方便针对特定操作做精确比对
 
-14. **Next.js API 生命周期实验**  
+16. **Next.js API 生命周期实验**  
     - 访问 `/api-lifecycle`，查看服务器组件对 headers/cookies/draftMode 的读数  
     - 使用页面下方 Playground 调用 `/api-lifecycle/api/echo` 与 `/api-lifecycle/api/stream`，观察日志  
     - 在终端留意 middleware 输出的请求信息以及响应头 `x-middleware-request-id`  
     - 阅读 `instrumentation.ts` 的日志，了解 register 钩子何时被调用
 
-15. **RSC 缓存策略实验**  
+17. **RSC 缓存策略实验**  
     - 打开 `/rsc-cache-lab`，先记录卡片显示的引用、指标与实时脉冲时间  
     - 点击「刷新缓存的引用」按钮，Server Action 会执行 `revalidateTag('cached-quote')`，稍后只刷新引用卡片  
     - 点击「刷新计算指标」按钮，观察 `unstable_cache` 绑定的 `insight-metrics` tag 被强制失效，新的耗时与 Fibonacci 采样会更新  
@@ -222,11 +269,13 @@ instrumentation.ts          # register 钩子，记录启动时机
 - **Flight 数据可视化工具** (`/rsc-flight-viewer`)：帮助解析和理解 Flight 数据包结构
 - **性能监控面板** (`/rsc-performance`)：实时监控 RSC 渲染性能指标
 - **缓存策略实验室** (`/rsc-cache-lab`)：掌握 `revalidateTag`、`unstable_cache` 与实时数据的协同刷新流程
+- **Parallel Routes 实验室** (`/parallel-lab`)：学习并行区域的布局方式与缓存策略
+- **Intercepting Routes 实验** (`/intercept-lab`)：体验模态拦截导航与完整页面切换
 
 ## 下一步规划
 
-- 添加 Edge Runtime 实验，对比 Node.js Runtime 和 Edge Runtime 的差异
-- 补充 Partial Prerendering 等高级案例，构成完整的 RSC 学习路径
 - 增强 Flight 可视化工具，支持实时捕获和自动解析 Flight 数据
-- 添加性能对比功能，对比不同缓存策略对性能的影响
-- 探索 Service Worker 与 RSC 缓存联动，进一步完善离线与实时刷新策略
+- 新增更多路由实验（如 Segment Config / Route Handlers 组合场景）
+- 添加性能对比功能，对比不同缓存策略与并行区域对指标的影响
+- 探索 Service Worker 与 RSC 缓存联动，完善离线与实时刷新策略
+- 集成可视化仪表盘，对比 Node 与 Edge Runtime 的耗时差异

@@ -48,6 +48,8 @@ const navGroups: NavGroup[] = [
     items: [
       { href: '/api-lifecycle', label: 'API 生命周期实验' },
       { href: '/rsc-metadata', label: 'Metadata API' },
+      { href: '/parallel-lab', label: 'Parallel Routes 实验' },
+      { href: '/intercept-lab', label: 'Intercepting Routes 实验' },
     ],
   },
 ]

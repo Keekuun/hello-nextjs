@@ -107,6 +107,20 @@ const demoCards: DemoCard[] = [
     accent: '#14b8a6',
     category: 'API & 底层',
   },
+  {
+    title: 'Parallel Routes',
+    description: '使用 @segment 并行渲染多个区域，构建高并发仪表盘页面。',
+    href: '/parallel-lab',
+    accent: '#0ea5e9',
+    category: 'API & 底层',
+  },
+  {
+    title: 'Intercepting Routes',
+    description: '通过模态拦截路由体验 SPA 与 SSR 的混合导航模式。',
+    href: '/intercept-lab',
+    accent: '#8b5cf6',
+    category: 'API & 底层',
+  },
 ]
 
 const guidePoints = [
@@ -125,6 +139,8 @@ const guidePoints = [
   '探索 React 19 use() Hook，直接在组件中使用 Promise 和 Context',
   '使用 useTransition 和 useDeferredValue 实现非阻塞更新，保持 UI 响应性',
   '动态生成 SEO 元数据、Open Graph 和 Twitter Cards，优化搜索引擎和社交媒体分享',
+  '利用 Parallel Routes 让多个仪表盘区域并行加载，降低感知等待时间',
+  '通过 Intercepting Routes 构建模态预览与完整页面之间的无缝切换',
 ]
 
 export default function Home() {
