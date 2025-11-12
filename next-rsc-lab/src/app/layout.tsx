@@ -6,7 +6,7 @@ import RouteProgress from '../components/layout/RouteProgress'
 import ServiceWorkerRegister from '../components/layout/ServiceWorkerRegister'
 import VersionNotifier from '../components/layout/VersionNotifier'
 import PwaInstallPrompt from '../components/layout/PwaInstallPrompt'
-import { BUILD_VERSION } from '../lib/version'
+import { BUILD_VERSION } from '@/lib/version'
 import './globals.css'
 
 const geistSans = Geist({
@@ -25,6 +25,8 @@ export const metadata: Metadata = {
     '一个拆解 React Server Components、Next.js App Router 与底层运行原理的实验项目。',
 }
 
+const isDevelopment = process.env.NODE_ENV === 'development'
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -35,7 +37,7 @@ export default function RootLayout({
       <head>
         <meta name="app-version" content={BUILD_VERSION} />
         <link rel="icon" href="/favicon.ico" />
-        <link rel="manifest" href="/manifest.json" />
+        {!isDevelopment && <link rel="manifest" href="/manifest.json" />}
         <meta name="theme-color" content="#2563eb" />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
@@ -43,10 +45,10 @@ export default function RootLayout({
           跳到主要内容
         </a>
         <div className="app-shell">
-          <ServiceWorkerRegister />
+          {!isDevelopment && <ServiceWorkerRegister />}
           <RouteProgress />
-          <VersionNotifier />
-          <PwaInstallPrompt />
+          {!isDevelopment && <VersionNotifier />}
+          {!isDevelopment && <PwaInstallPrompt />}
           <SiteHeader />
           <main id="main-content" className="app-main">
             <RouteTransition>{children}</RouteTransition>

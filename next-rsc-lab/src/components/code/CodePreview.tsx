@@ -1,4 +1,7 @@
-import { cache } from 'react'
+import {cache} from 'react'
+import {readFile} from 'node:fs/promises'
+import path from 'node:path'
+
 import CodeHighlight from './CodeHighlight'
 import CodePreviewModalTrigger from './CodePreviewModalTrigger'
 
@@ -14,26 +17,14 @@ type Props = {
 const REPO_BASE_URL =
   'https://github.com/Keekuun/hello-nextjs/blob/main/next-rsc-lab/'
 
-// 动态导入 Node.js 模块，仅在非 Edge Runtime 时使用
-async function readCodeFileIfNeeded(file: string): Promise<string | null> {
+export const readCodeFile = cache(async (file: string): Promise<string | null> => {
   try {
-    // 检查是否在 Edge Runtime 环境
-    if (typeof process === 'undefined' || !process.cwd) {
-      return null
-    }
-
-    const { readFile } = await import('node:fs/promises')
-    const path = await import('node:path')
     const absolute = path.join(process.cwd(), file)
-    const content = await readFile(absolute, 'utf-8')
-    return content
+    return await readFile(absolute, 'utf-8')
   } catch {
-    // Edge Runtime 或其他错误，返回 null
     return null
   }
-}
-
-const readCodeFile = cache(readCodeFileIfNeeded)
+})
 
 export default async function CodePreview({
   title,
@@ -43,8 +34,10 @@ export default async function CodePreview({
   description,
   code,
 }: Props) {
-  // 优先使用传入的 code，否则尝试读取文件
+  // 优先使用传入的 code
   let source: string = code || ''
+  
+  // 如果没有提供 code，尝试读取文件（仅在非 Edge Runtime）
   if (!source) {
     const fileContent = await readCodeFile(file)
     source = fileContent || ''
